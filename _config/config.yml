@@ -1,0 +1,10 @@
+---
+Name: silverstripeproduct-catalogconfig
+---
+CatalogProduct:
+  extensions:
+    - FlexSlider
+    - Dynamic\ViewableDataobject\Extensions\ViewableDataobject
+SlideImage:
+  extensions:
+    - CatalogSlideImageDataExtension
