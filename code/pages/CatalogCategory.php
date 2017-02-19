@@ -56,8 +56,6 @@ class CatalogCategory_Controller extends Page_Controller
      */
     private static $allowed_actions = array(
         'view',
-        'ContactForm',
-        'success',
     );
 
     /**
@@ -89,7 +87,7 @@ class CatalogCategory_Controller extends Page_Controller
 
         $productID = $request->param('ID');
         if ($productID) {
-            $product = ChardProduct::get()->filter('URLSegment', $productID)->first();
+            $product = CatalogProduct::get()->filter('URLSegment', $productID)->first();
             return $product;
         }
         return false;
@@ -120,77 +118,5 @@ class CatalogCategory_Controller extends Page_Controller
             'MetaTags' => $product->MetaTags(),
             'Breadcrumbs' => $product->Breadcrumbs(),
         ))->renderWith(array('Product', 'Page'));
-    }
-
-    /**
-     * @return Form
-     */
-    public function ContactForm()
-    {
-        $request = ($this->request) ? $this->request : $this->parentController->getRequest();
-        $fields = new FieldList(
-            TextField::create('Name'),
-            EmailField::create('Email'),
-            TextField::create('Phone', 'Phone (Optional)'),
-            TextareaField::create('Comment', 'Questions or Comments'),
-            HiddenField::create('Created', 'Date', date('Y-m-d H:i:s'))
-        );
-        if ($this->getProduct($request)) {
-            $fields->push(HiddenField::create('ProductID', 'ProductID', $this->getProduct()->ID));
-        }
-
-        $actions = new FieldList(
-            FormAction::create('doContactForm', 'Submit')
-        );
-
-        $required = new RequiredFields('Name', 'Email', 'Comment');
-
-        $form = BootstrapForm::create($this, 'ContactForm', $fields, $actions, $required)
-            ->enableSpamProtection()
-            ->disableSecurityToken()
-            //->loadDataFrom($request->postVars())
-        ;
-
-        return $form;
-    }
-
-    /**
-     * @param $data
-     * @param Form $form
-     * @return SS_HTTPResponse
-     */
-    public function doContactForm($data, Form $form)
-    {
-        $submission = new ContactFormSubmission();
-        $form->saveInto($submission);
-        $submission->write();
-
-        $config = SiteConfig::current_site_config();
-        $recipients = $config->Recipients();
-        $subject = $config->EmailSubject;
-        $template = 'ContactFormSubmission';
-
-        // send emails
-        $this->extend('sendFormEmail', $submission, $template, $recipients, $subject);
-
-        return $this->redirect('success');
-    }
-
-    /**
-     * @return HTMLText
-     */
-    public function success()
-    {
-        $config = SiteConfig::current_site_config();
-        $thanks = $config->ThankYouMessage;
-        if ($thanks == null) {
-            $thanks = '';
-        }
-
-        return $this->customise(new ArrayData(array(
-            'Title' => 'Contact Us',
-            'Content' => $thanks,
-            'Form' => false,
-        )))->renderWith('Page', 'Page');
     }
 }

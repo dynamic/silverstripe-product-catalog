@@ -1,0 +1,63 @@
+Group:
+  administrators:
+    Title: Administrators
+  content_authors:
+    Title: "Content Authors"
+Permission:
+  administrators:
+    Code: ADMIN
+    Type: 1
+    Group: =>Group.administrators
+Member:
+  admin:
+    FirstName: Default
+    Surname: Admin
+    Email: administrator
+    Groups: =>Group.administrators
+  author:
+    FirstName: "Content"
+    Surname: "Author"
+    Email: "content"
+    Groups: =>Group.content_authors
+  default:
+    FirstName: Default
+    Surname: Member
+    Email: member
+CatalogProduct:
+  one:
+    Title: "Product One"
+    URLSegment: "product-one"
+  two:
+    Title: "Product Two"
+    URLSegment: "product-two"
+CatalogCategory:
+  default:
+    Title: "Products"
+    Products: =>CatalogProduct.one,=>CatalogProduct.two
+  one:
+    Title: 'Category One'
+  two:
+    Title: 'Category Two'
+File:
+  one:
+    Title: 'File One'
+    URL: 'assets/Uploads/files'
+CareCleaningDoc:
+  one:
+    Title: "Care & Cleaning"
+    Products: =>CatalogProduct.one
+OperationManual:
+  one:
+    Title: "Operation Manual"
+    Products: =>CatalogProduct.one
+SpecSheet:
+  one:
+    Title: "Spec Sheet"
+    Products: =>CatalogProduct.one
+Warranty:
+  one:
+    Title: "Warranty"
+    Products: =>CatalogProduct.one
+ProductDoc:
+  one:
+    Name: 'ProductDoc'
