@@ -1,6 +1,6 @@
 <?php
 
-class CatalogProductFeature extends ContentObject
+class CatalogProductFeature extends DataObject
 {
     /**
      * @var string
@@ -16,6 +16,9 @@ class CatalogProductFeature extends ContentObject
      * @var array
      */
     private static $db = array(
+        'Name' => 'Varchar(255)',
+        'Title' => 'Varchar(255)',
+        'Content' => 'HTMLText',
         'SortOrder' => 'Int',
     );
 
@@ -25,6 +28,7 @@ class CatalogProductFeature extends ContentObject
     private static $has_one = array(
         'Product' => 'CatalogProduct',
         'ContentLink' => 'Link',
+        'Image' => 'Image',
     );
 
     /**
