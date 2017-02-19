@@ -8,3 +8,15 @@ CatalogProduct:
 SlideImage:
   extensions:
     - CatalogSlideImageDataExtension
+CareCleaningDoc:
+  extensions:
+    - ProductDocsDataExtension
+OperationManual:
+  extensions:
+    - ProductDocsDataExtension
+SpecSheet:
+  extensions:
+    - ProductDocsDataExtension
+Warranty:
+  extensions:
+    - ProductDocsDataExtension

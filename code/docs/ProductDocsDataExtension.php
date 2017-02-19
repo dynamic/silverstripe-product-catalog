@@ -6,7 +6,7 @@ class ProductDocsDataExtension extends DataExtension
      * @var array
      */
     private static $belongs_many_many = array(
-        'Products' => 'ChardProduct',
+        'Products' => 'CatalogProduct',
     );
 
     /**
@@ -85,7 +85,8 @@ class ProductDocsDataExtension extends DataExtension
             'Content'
         );
 
-        $fields->dataFieldByName('Image')->setDescription('420 x 420 pixels (72 dpi)');
+        $fields->dataFieldByName('Image')
+            ->setFolderName('Uploads/ProductDocs/Images');
 
         if ($this->owner->ID) {
             // products
