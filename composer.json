@@ -15,7 +15,7 @@
     "require": {
         "silverstripe/cms": "^3.2",
         "silverstripe/framework": "^3.2",
-        "dynamic/silverstripe-flexslider": "^1.0",
+        "dynamic/flexslider": "^1.0",
         "dynamic/viewable-dataobject": "^1.0",
         "heyday/silverstripe-versioneddataobjects": "^1.5"
     },
