@@ -1,5 +1,5 @@
 {
-    "name": "silverstripe-product-catalog",
+    "name": "dynamic/silverstripe-product-catalog",
     "description": "simple, extendable product catalog",
     "authors": [
         {
@@ -26,5 +26,11 @@
         "process-timeout": 600
     },
     "minimum-stability": "dev",
-    "prefer-stable": true
+    "prefer-stable": true,
+    "extra": {
+        "installer-name": "product-catalog",
+        "branch-alias": {
+            "dev-master": "1.0.x-dev"
+        }
+    }
 }
