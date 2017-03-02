@@ -20,6 +20,7 @@ class CatalogProduct extends DataObject implements PermissionProvider, Dynamic\V
         'Content' => 'HTMLText',
         'QuickFeatures' => 'HTMLText',
         'Dimensions' => 'Varchar(255)',
+        'SKU' => 'Varchar(50)',
     );
 
     /**
@@ -156,6 +157,11 @@ class CatalogProduct extends DataObject implements PermissionProvider, Dynamic\V
             'Warranties',
             'DisabledBlocks',
         ));
+
+        $fields->insertBefore(
+            $fields->dataFieldByName('SKU'),
+            'Content'
+        );
 
         $fields->addFieldsToTab('Root.Info', array(
             TextField::create('Dimensions'),
