@@ -1,6 +1,6 @@
 <?php
 
-class ProductDocsDataExtension extends DataExtension
+class ProductDocDataExtension extends DataExtension
 {
     /**
      * @var array

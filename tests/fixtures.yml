@@ -61,3 +61,7 @@ Warranty:
 ProductDoc:
   one:
     Name: 'ProductDoc'
+ProductDocCollection:
+  default:
+    Title: 'Spec Sheets'
+    ManagedClass: 'SpecSheet'

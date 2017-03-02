@@ -16,7 +16,10 @@
         "silverstripe/cms": "^3.2",
         "silverstripe/framework": "^3.2",
         "dynamic/flexslider": "^1.0",
+        "dynamic/imageuploadfield": "^1.0",
+        "dynamic/silverstripe-collection": "^1.0",
         "dynamic/viewable-dataobject": "^1.0",
+        "muskie9/silverstripe-selectboxfield": "^1.0",
         "heyday/silverstripe-versioneddataobjects": "^1.5",
         "silverstripe-australia/gridfieldextensions": "^1.4",
         "sheadawson/silverstripe-linkable": "^1.3"
