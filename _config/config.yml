@@ -10,13 +10,17 @@ SlideImage:
     - CatalogSlideImageDataExtension
 CareCleaningDoc:
   extensions:
-    - ProductDocsDataExtension
+    - ProductDocDataExtension
 OperationManual:
   extensions:
-    - ProductDocsDataExtension
+    - ProductDocDataExtension
 SpecSheet:
   extensions:
-    - ProductDocsDataExtension
+    - ProductDocDataExtension
 Warranty:
   extensions:
-    - ProductDocsDataExtension
+    - ProductDocDataExtension
+ProductDocCollection_Controller:
+  extensions:
+    - CollectionExtension
+    - ProductDocCollectionDataExtension

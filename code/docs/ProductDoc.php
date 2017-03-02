@@ -61,15 +61,12 @@ class ProductDoc extends DataObject
                 ->setAttribute('placeholder', 'http://'),
         ));
 
-        $ImageField = UploadField::create('Image', 'Image')
-            ->setFolderName('Uploads/ProductDocs/Images')
-            ->setConfig('allowedMaxFileNumber', 1)
-            ->setAllowedFileCategories('image')
-            ->setAllowedMaxFileNumber(1)
-            ->setDescription('Preview image of file')
-        ;
-
-        $fields->insertBefore($ImageField, 'Content');
+        $fields->insertBefore(
+            ImageUploadField::create('Image')
+                ->setFolderName('Uploads/ProductDocs/Images')
+                ->setDescription('Preview image of file'),
+            'Content'
+        );
 
         return $fields;
     }
