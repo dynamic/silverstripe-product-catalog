@@ -26,13 +26,6 @@ class CatalogProduct extends DataObject implements PermissionProvider, Dynamic\V
     /**
      * @var array
      */
-    private static $has_many = array(
-        'Features' => 'CatalogProductFeature',
-    );
-
-    /**
-     * @var array
-     */
     private static $many_many = array(
         'Categories' => 'CatalogCategory',
         'CareCleaningDocs' => 'CareCleaningDoc',
@@ -180,23 +173,12 @@ class CatalogProduct extends DataObject implements PermissionProvider, Dynamic\V
             $config->addComponent(new GridFieldOrderableRows('SortOrder'));
             $config->removeComponentsByType('GridFieldAddExistingAutocompleter');
             $config->addComponent(new GridFieldAddExistingSearchButton());
-            $config->removeComponentsByType('GridFieldAddNewBUtton');
+            $config->removeComponentsByType('GridFieldAddNewButton');
             $categories = $this->Categories()->sort('SortOrder');
             $categoryField = GridField::create('Categories', 'Categories', $categories, $config);
 
             $fields->addFieldsToTab('Root.Categories.Categories', array(
                 $categoryField,
-            ));
-
-            // Features
-            $config = GridFieldConfig_RecordEditor::create();
-            $config->addComponent(new GridFieldOrderableRows('SortOrder'));
-            $config->removeComponentsByType('GridFieldAddExistingAutocompleter');
-            $config->removeComponentsByType('GridFieldDeleteAction');
-            $config->addComponent(new GridFieldDeleteAction(false));
-            $featuresField = GridField::create('Features', 'Features', $this->Features()->sort('SortOrder'), $config);
-            $fields->addFieldsToTab('Root.Features', array(
-                $featuresField,
             ));
 
             // Care and Cleaning
@@ -257,6 +239,8 @@ class CatalogProduct extends DataObject implements PermissionProvider, Dynamic\V
     }
 
     /**
+     * set ParentPage for ViewableDataobject
+     *
      * @return string
      */
     public function getParentPage()
@@ -265,6 +249,8 @@ class CatalogProduct extends DataObject implements PermissionProvider, Dynamic\V
     }
 
     /**
+     * set ViewAction for ViewableDataobject
+     *
      * @return string
      */
     public function getViewAction()
@@ -273,7 +259,7 @@ class CatalogProduct extends DataObject implements PermissionProvider, Dynamic\V
     }
 
     /**
-     * needed for Blocks
+     * set Ancestors, needed for Blocks on Dataobjects
      *
      * @return DataList
      */
