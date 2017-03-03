@@ -279,7 +279,6 @@ class CatalogProduct extends DataObject implements PermissionProvider, Dynamic\V
      */
     public function getAncestors()
     {
-        debug::show(CatalogCategory::get());
         return CatalogCategory::get();
     }
 
