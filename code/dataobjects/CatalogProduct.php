@@ -149,14 +149,20 @@ class CatalogProduct extends DataObject implements PermissionProvider, Dynamic\V
     {
         $fields = parent::getCMSFields();
 
-        $fields->removeByName(array(
+        $remove = [
             'Categories',
             'CareCleaningDocs',
             'OperationManuals',
             'SpecSheets',
             'Warranties',
             'DisabledBlocks',
-        ));
+        ];
+
+        if (!$this->ID) {
+            $remove[] = 'Blocks';
+        }
+
+        $fields->removeByName($remove);
 
         $fields->insertBefore(
             $fields->dataFieldByName('SKU'),
@@ -171,13 +177,9 @@ class CatalogProduct extends DataObject implements PermissionProvider, Dynamic\V
         if ($this->ID) {
             // Categories
             $config = GridFieldConfig_RelationEditor::create();
-            if (class_exists('GridFieldSortableRows')) {
-                $config->addComponent(new GridFieldSortableRows('SortOrder'));
-            }
-            if (class_exists('GridFieldAddExistingSearchButton')) {
-                $config->removeComponentsByType('GridFieldAddExistingAutocompleter');
-                $config->addComponent(new GridFieldAddExistingSearchButton());
-            }
+            $config->addComponent(new GridFieldOrderableRows('SortOrder'));
+            $config->removeComponentsByType('GridFieldAddExistingAutocompleter');
+            $config->addComponent(new GridFieldAddExistingSearchButton());
             $config->removeComponentsByType('GridFieldAddNewBUtton');
             $categories = $this->Categories()->sort('SortOrder');
             $categoryField = GridField::create('Categories', 'Categories', $categories, $config);
@@ -188,9 +190,7 @@ class CatalogProduct extends DataObject implements PermissionProvider, Dynamic\V
 
             // Features
             $config = GridFieldConfig_RecordEditor::create();
-            if (class_exists('GridFieldSortableRows')) {
-                $config->addComponent(new GridFieldSortableRows('SortOrder'));
-            }
+            $config->addComponent(new GridFieldOrderableRows('SortOrder'));
             $config->removeComponentsByType('GridFieldAddExistingAutocompleter');
             $config->removeComponentsByType('GridFieldDeleteAction');
             $config->addComponent(new GridFieldDeleteAction(false));
@@ -201,13 +201,9 @@ class CatalogProduct extends DataObject implements PermissionProvider, Dynamic\V
 
             // Care and Cleaning
             $config = GridFieldConfig_RecordEditor::create();
-            if (class_exists('GridFieldOrderableRows')) {
-                $config->addComponent(new GridFieldOrderableRows('Sort'));
-            }
-            if (class_exists('GridFieldAddExistingSearchButton')) {
-                $config->removeComponentsByType('GridFieldAddExistingAutocompleter');
-                $config->addComponent(new GridFieldAddExistingSearchButton());
-            }
+            $config->addComponent(new GridFieldOrderableRows('Sort'));
+            $config->removeComponentsByType('GridFieldAddExistingAutocompleter');
+            $config->addComponent(new GridFieldAddExistingSearchButton());
             $operation = GridField::create('CareCleaningDocs', 'Care and Cleaning', $this->CareCleaningDocs()->sort('Sort'), $config);
             $fields->addFieldsToTab('Root.Files.Care', array(
                 $operation,
@@ -215,13 +211,9 @@ class CatalogProduct extends DataObject implements PermissionProvider, Dynamic\V
 
             // Operation Manuals
             $config = GridFieldConfig_RecordEditor::create();
-            if (class_exists('GridFieldOrderableRows')) {
-                $config->addComponent(new GridFieldOrderableRows('Sort'));
-            }
-            if (class_exists('GridFieldAddExistingSearchButton')) {
-                $config->removeComponentsByType('GridFieldAddExistingAutocompleter');
-                $config->addComponent(new GridFieldAddExistingSearchButton());
-            }
+            $config->addComponent(new GridFieldOrderableRows('Sort'));
+            $config->removeComponentsByType('GridFieldAddExistingAutocompleter');
+            $config->addComponent(new GridFieldAddExistingSearchButton());
             $operation = GridField::create('OperationManuals', 'Operation Manuals', $this->OperationManuals()->sort('Sort'), $config);
             $fields->addFieldsToTab('Root.Files.Operation', array(
                 $operation,
@@ -229,13 +221,9 @@ class CatalogProduct extends DataObject implements PermissionProvider, Dynamic\V
 
             // Spec Sheets
             $config = GridFieldConfig_RecordEditor::create();
-            if (class_exists('GridFieldOrderableRows')) {
-                $config->addComponent(new GridFieldOrderableRows('Sort'));
-            }
-            if (class_exists('GridFieldAddExistingSearchButton')) {
-                $config->removeComponentsByType('GridFieldAddExistingAutocompleter');
-                $config->addComponent(new GridFieldAddExistingSearchButton());
-            }
+            $config->addComponent(new GridFieldOrderableRows('Sort'));
+            $config->removeComponentsByType('GridFieldAddExistingAutocompleter');
+            $config->addComponent(new GridFieldAddExistingSearchButton());
             $specsheets = GridField::create('SpecSheets', 'Spec Sheets', $this->SpecSheets()->sort('Sort'), $config);
             $fields->addFieldsToTab('Root.Files.SpecSheets', array(
                 $specsheets,
@@ -243,13 +231,9 @@ class CatalogProduct extends DataObject implements PermissionProvider, Dynamic\V
 
             // Warranties
             $config = GridFieldConfig_RecordEditor::create();
-            if (class_exists('GridFieldOrderableRows')) {
-                $config->addComponent(new GridFieldOrderableRows('Sort'));
-            }
-            if (class_exists('GridFieldAddExistingSearchButton')) {
-                $config->removeComponentsByType('GridFieldAddExistingAutocompleter');
-                $config->addComponent(new GridFieldAddExistingSearchButton());
-            }
+            $config->addComponent(new GridFieldOrderableRows('Sort'));
+            $config->removeComponentsByType('GridFieldAddExistingAutocompleter');
+            $config->addComponent(new GridFieldAddExistingSearchButton());
             $warranties = GridField::create('Warranties', 'Warranties', $this->Warranties()->sort('Sort'), $config);
             $fields->addFieldsToTab('Root.Files.Warranty', array(
                 $warranties,
@@ -295,6 +279,7 @@ class CatalogProduct extends DataObject implements PermissionProvider, Dynamic\V
      */
     public function getAncestors()
     {
+        debug::show(CatalogCategory::get());
         return CatalogCategory::get();
     }
 
