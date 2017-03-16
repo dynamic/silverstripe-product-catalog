@@ -59,7 +59,7 @@ class CatalogProduct extends DataObject implements PermissionProvider, Dynamic\V
      * @var array
      */
     private static $summary_fields = array(
-        'Image.CMSThumbnail' => 'Image',
+        'ProductThumbnail' => 'Image',
         'Title' => 'Title',
         'Type' => 'Type',
         'CategoryList' => 'Categories',
@@ -133,6 +133,16 @@ class CatalogProduct extends DataObject implements PermissionProvider, Dynamic\V
     public function Image()
     {
         return $this->getImage();
+    }
+
+    /**
+     * @return mixed
+     */
+    public function ProductThumbnail()
+    {
+        $image = $this->getImage();
+        $thumb = Image::get()->byID($image->ID);
+        return $thumb->CMSThumbnail();
     }
 
     /**
