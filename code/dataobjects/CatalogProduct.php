@@ -125,6 +125,7 @@ class CatalogProduct extends DataObject implements PermissionProvider, Dynamic\V
         if ($this->Slides()->exists()) {
             return $this->Slides()->first();
         }
+        return false;
     }
 
     /**
@@ -140,9 +141,12 @@ class CatalogProduct extends DataObject implements PermissionProvider, Dynamic\V
      */
     public function ProductThumbnail()
     {
-        $image = $this->getImage();
-        $thumb = Image::get()->byID($image->ID);
-        return $thumb->CMSThumbnail();
+        if ($image = $this->getImage()) {
+            if ($thumb = Image::get()->byID($image->ID)) {
+                return $thumb->CMSThumbnail();
+            }
+        }
+        return false;
     }
 
     /**
