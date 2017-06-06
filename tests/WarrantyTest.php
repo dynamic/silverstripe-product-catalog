@@ -23,12 +23,58 @@ class WarrantyTest extends SapphireTest
         $this->assertNotNull($fields->dataFieldByName('Products'));
     }
 
-    /**
-     *
-     */
-    public function testGetProductsCt()
+    public function testCanView()
     {
         $object = $this->objFromFixture('Warranty', 'one');
-        $this->assertEquals($object->getProductsCt(), 1);
+
+        $admin = $this->objFromFixture('Member', 'admin');
+        $this->assertTrue($object->canView($admin));
+
+        $member = $this->objFromFixture('Member', 'default');
+        $this->assertTrue($object->canView($member));
+    }
+
+    public function testCanEdit()
+    {
+        $object = $this->objFromFixture('Warranty', 'one');
+
+        $admin = $this->objFromFixture('Member', 'admin');
+        $this->assertTrue($object->canEdit($admin));
+
+        $member = $this->objFromFixture('Member', 'default');
+        $this->assertFalse($object->canEdit($member));
+    }
+
+    public function testCanDelete()
+    {
+        $object = $this->objFromFixture('Warranty', 'one');
+
+        $admin = $this->objFromFixture('Member', 'admin');
+        $this->assertTrue($object->canDelete($admin));
+
+        $member = $this->objFromFixture('Member', 'default');
+        $this->assertFalse($object->canDelete($member));
+    }
+
+    public function testCanCreate()
+    {
+        $object = $this->objFromFixture('Warranty', 'one');
+
+        $admin = $this->objFromFixture('Member', 'admin');
+        $this->assertTrue($object->canCreate($admin));
+
+        $member = $this->objFromFixture('Member', 'default');
+        $this->assertFalse($object->canCreate($member));
+    }
+
+    public function testProvidePermissions()
+    {
+        $object = $this->objFromFixture('Warranty', 'one');
+        $expected = array(
+            'Warranty_EDIT' => 'Edit Warranty Docs',
+            'Warranty_DELETE' => 'Delete Warranty Docs',
+            'Warranty_CREATE' => 'Create Warranty Docs',
+        );
+        $this->assertEquals($expected, $object->providePermissions());
     }
 }
