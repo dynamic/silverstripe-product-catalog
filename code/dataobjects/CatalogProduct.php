@@ -123,7 +123,10 @@ class CatalogProduct extends DataObject implements PermissionProvider, Dynamic\V
     public function getImage()
     {
         if ($this->Slides()->exists()) {
-            return $this->Slides()->first();
+            $slide = $this->Slides()->first();
+            if ($slide->ImageID > 0) {
+                return $slide->Image();
+            }
         }
         return false;
     }
