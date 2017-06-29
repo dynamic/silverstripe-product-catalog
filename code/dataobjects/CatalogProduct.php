@@ -81,7 +81,7 @@ class CatalogProduct extends DataObject implements PermissionProvider, Dynamic\V
      * @var array
      */
     private static $extensions = [
-        'VersionedDataObject',
+        'Heyday\VersionedDataObjects\VersionedDataObject',
     ];
 
     /**

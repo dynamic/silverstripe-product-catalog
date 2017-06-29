@@ -20,7 +20,7 @@
         "dynamic/silverstripe-collection": "^1.0",
         "dynamic/viewable-dataobject": "^1.0",
         "muskie9/silverstripe-selectboxfield": "^1.0",
-        "heyday/silverstripe-versioneddataobjects": "^1.5",
+        "heyday/silverstripe-versioneddataobjects": "^2.0",
         "silverstripe-australia/gridfieldextensions": "^1.4",
         "sheadawson/silverstripe-linkable": "^1.3"
     },
