@@ -1,5 +1,7 @@
 <?php
 
+use Heyday\VersionedDataObjects\VersionedDataObjectDetailsForm;
+
 class CatalogCategory extends Page
 {
     /**
