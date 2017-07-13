@@ -1,5 +1,10 @@
 <?php
 
+namespace Dynamic\ProductCatalog\Docs;
+
+use SilverStripe\Security\Permission;
+use SilverStripe\Security\PermissionProvider;
+
 class Warranty extends ProductDoc implements PermissionProvider
 {
     /**
@@ -11,6 +16,11 @@ class Warranty extends ProductDoc implements PermissionProvider
      * @var string
      */
     private static $plural_name = 'Warranties';
+
+    /**
+     * @var string
+     */
+    private static $table_name = 'Warranty';
 
     /**
      * @return FieldList
@@ -41,7 +51,7 @@ class Warranty extends ProductDoc implements PermissionProvider
      *
      * @return bool|int
      */
-    public function canCreate($member = null)
+    public function canCreate($member = null, $context = [])
     {
         return Permission::check('Warranty_CREATE', 'any', $member);
     }
@@ -51,7 +61,7 @@ class Warranty extends ProductDoc implements PermissionProvider
      *
      * @return bool|int
      */
-    public function canEdit($member = null)
+    public function canEdit($member = null, $context = [])
     {
         return Permission::check('Warranty_EDIT', 'any', $member);
     }
@@ -61,7 +71,7 @@ class Warranty extends ProductDoc implements PermissionProvider
      *
      * @return bool|int
      */
-    public function canDelete($member = null)
+    public function canDelete($member = null, $context = [])
     {
         return Permission::check('Warranty_DELETE', 'any', $member);
     }
@@ -71,7 +81,7 @@ class Warranty extends ProductDoc implements PermissionProvider
      *
      * @return bool
      */
-    public function canView($member = null)
+    public function canView($member = null, $context = [])
     {
         return true;
     }

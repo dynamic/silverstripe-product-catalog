@@ -1,26 +1,27 @@
 ---
 Name: silverstripeproduct-catalogconfig
 ---
-CatalogProduct:
+Dynamic\ProductCatalog\ORM\CatalogProduct:
   extensions:
-    - FlexSlider
+    - Dynamic\FlexSlider\ORM\FlexSlider
     - Dynamic\ViewableDataObject\Extensions\ViewableDataObject
-SlideImage:
+    - SilverStripe\Versioned\Versioned('Stage','Live')
+Dynamic\FlexSlider\Model\SlideImage:
   extensions:
-    - CatalogSlideImageDataExtension
-CareCleaningDoc:
+    - Dynamic\ProductCatalog\ORM\CatalogSlideImageDataExtension
+Dynamic\ProductCatalog\Docs\CareCleaningDoc:
   extensions:
-    - ProductDocDataExtension
-OperationManual:
+    - Dynamic\ProductCatalog\ORM\ProductDocDataExtension
+Dynamic\ProductCatalog\Docs\OperationManual:
   extensions:
-    - ProductDocDataExtension
-SpecSheet:
+    - Dynamic\ProductCatalog\ORM\ProductDocDataExtension
+Dynamic\ProductCatalog\Docs\SpecSheet:
   extensions:
-    - ProductDocDataExtension
-Warranty:
+    - Dynamic\ProductCatalog\ORM\ProductDocDataExtension
+Dynamic\ProductCatalog\Docs\Warranty:
   extensions:
-    - ProductDocDataExtension
-ProductDocCollection_Controller:
+    - Dynamic\ProductCatalog\ORM\ProductDocDataExtension
+Dynamic\ProductCatalog\Page\ProductDocCollectionController:
   extensions:
-    - CollectionExtension
-    - ProductDocCollectionDataExtension
+    - Dynamic\Collection\CollectionExtension
+    - Dynamic\ProductCatalog\ORM\ProductDocCollectionDataExtension

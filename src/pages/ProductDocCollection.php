@@ -1,6 +1,12 @@
 <?php
 
-class ProductDocCollection extends Page
+namespace Dynamic\ProductCatalog\Page;
+
+use Dynamic\ProductCatalog\Docs\ProductDoc;
+use SilverStripe\Core\ClassInfo;
+use SilverStripe\Forms\DropdownField;
+
+class ProductDocCollection extends \Page
 {
     /**
      * @var array
@@ -10,14 +16,19 @@ class ProductDocCollection extends Page
     );
 
     /**
+     * @var string
+     */
+    private static $table_name = 'ProductDocCollection';
+
+    /**
      * @return FieldList
      */
     public function getCMSFields()
     {
         $fields = parent::getCMSFields();
 
-        if ($relations = ClassInfo::subclassesFor('ProductDoc')) {
-            unset($relations['ProductDoc']);
+        if ($relations = ClassInfo::subclassesFor(ProductDoc::class)) {
+            unset($relations[ProductDoc::class]);
             foreach ($relations as $key => $value) {
                 $relations[$key] = singleton($value)->i18n_singular_name();
             }
@@ -32,9 +43,4 @@ class ProductDocCollection extends Page
 
         return $fields;
     }
-}
-
-class ProductDocCollection_Controller extends Page_Controller
-{
-
 }

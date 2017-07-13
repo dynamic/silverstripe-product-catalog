@@ -1,6 +1,29 @@
 <?php
 
-class CatalogProduct extends DataObject implements PermissionProvider, Dynamic\ViewableDataObject\VDOInterfaces\ViewableDataObjectInterface
+namespace Dynamic\ProductCatalog\ORM;
+
+use Dynamic\ProductCatalog\Docs\CareCleaningDoc;
+use Dynamic\ProductCatalog\Docs\OperationManual;
+use Dynamic\ProductCatalog\Docs\SpecSheet;
+use Dynamic\ProductCatalog\Docs\Warranty;
+use Dynamic\ProductCatalog\Page\CatalogCategory;
+use Dynamic\ViewableDataObject\VDOInterfaces\ViewableDataObjectInterface;
+use SilverStripe\Assets\Image;
+use SilverStripe\Dev\Debug;
+use SilverStripe\Forms\GridField\GridField;
+use SilverStripe\Forms\GridField\GridFieldAddExistingAutocompleter;
+use SilverStripe\Forms\GridField\GridFieldAddNewButton;
+use SilverStripe\Forms\GridField\GridFieldConfig_RecordEditor;
+use SilverStripe\Forms\GridField\GridFieldConfig_RelationEditor;
+use SilverStripe\Forms\HTMLEditor\HTMLEditorField;
+use SilverStripe\Forms\TextField;
+use SilverStripe\ORM\DataObject;
+use SilverStripe\Security\Permission;
+use SilverStripe\Security\PermissionProvider;
+use Symbiote\GridFieldExtensions\GridFieldAddExistingSearchButton;
+use Symbiote\GridFieldExtensions\GridFieldOrderableRows;
+
+class CatalogProduct extends DataObject implements PermissionProvider, ViewableDataObjectInterface
 {
     /**
      * @var string
@@ -27,11 +50,11 @@ class CatalogProduct extends DataObject implements PermissionProvider, Dynamic\V
      * @var array
      */
     private static $many_many = array(
-        'Categories' => 'CatalogCategory',
-        'CareCleaningDocs' => 'CareCleaningDoc',
-        'OperationManuals' => 'OperationManual',
-        'SpecSheets' => 'SpecSheet',
-        'Warranties' => 'Warranty',
+        'Categories' => CatalogCategory::class,
+        'CareCleaningDocs' => CareCleaningDoc::class,
+        'OperationManuals' => OperationManual::class,
+        'SpecSheets' => SpecSheet::class,
+        'Warranties' => Warranty::class,
     );
 
     /**
@@ -56,6 +79,11 @@ class CatalogProduct extends DataObject implements PermissionProvider, Dynamic\V
     );
 
     /**
+     * @var string
+     */
+    private static $table_name = 'CatalogProdcut';
+
+    /**
      * @var array
      */
     private static $summary_fields = array(
@@ -78,11 +106,9 @@ class CatalogProduct extends DataObject implements PermissionProvider, Dynamic\V
     );
 
     /**
-     * @var array
+     * @var string
      */
-    private static $extensions = [
-        'Heyday\VersionedDataObjects\VersionedDataObject',
-    ];
+    private static $slide_tab_title = 'Images';
 
     /**
      * @param bool $includerelations
@@ -153,7 +179,7 @@ class CatalogProduct extends DataObject implements PermissionProvider, Dynamic\V
     }
 
     /**
-     * @return FieldList
+     * @return \SilverStripe\Forms\FieldList
      */
     public function getCMSFields()
     {
@@ -166,6 +192,7 @@ class CatalogProduct extends DataObject implements PermissionProvider, Dynamic\V
             'SpecSheets',
             'Warranties',
             'DisabledBlocks',
+            'Slides',
         ];
 
         if (!$this->ID) {
@@ -181,16 +208,17 @@ class CatalogProduct extends DataObject implements PermissionProvider, Dynamic\V
 
         $fields->addFieldsToTab('Root.Info', array(
             TextField::create('Dimensions'),
-            HTMLEditorField::create('QuickFeatures'),
+            HTMLEditorField::create('QuickFeatures')
+                ->addExtraClass('stacked'),
         ));
 
         if ($this->ID) {
             // Categories
             $config = GridFieldConfig_RelationEditor::create();
             $config->addComponent(new GridFieldOrderableRows('SortOrder'));
-            $config->removeComponentsByType('GridFieldAddExistingAutocompleter');
+            $config->removeComponentsByType(GridFieldAddExistingAutocompleter::class);
             $config->addComponent(new GridFieldAddExistingSearchButton());
-            $config->removeComponentsByType('GridFieldAddNewButton');
+            $config->removeComponentsByType(GridFieldAddNewButton::class);
             $categories = $this->Categories()->sort('SortOrder');
             $categoryField = GridField::create('Categories', 'Categories', $categories, $config);
 
@@ -201,7 +229,7 @@ class CatalogProduct extends DataObject implements PermissionProvider, Dynamic\V
             // Care and Cleaning
             $config = GridFieldConfig_RecordEditor::create();
             $config->addComponent(new GridFieldOrderableRows('Sort'));
-            $config->removeComponentsByType('GridFieldAddExistingAutocompleter');
+            $config->removeComponentsByType(GridFieldAddExistingAutocompleter::class);
             $config->addComponent(new GridFieldAddExistingSearchButton());
             $operation = GridField::create('CareCleaningDocs', 'Care and Cleaning', $this->CareCleaningDocs()->sort('Sort'), $config);
             $fields->addFieldsToTab('Root.Files.Care', array(
@@ -211,7 +239,7 @@ class CatalogProduct extends DataObject implements PermissionProvider, Dynamic\V
             // Operation Manuals
             $config = GridFieldConfig_RecordEditor::create();
             $config->addComponent(new GridFieldOrderableRows('Sort'));
-            $config->removeComponentsByType('GridFieldAddExistingAutocompleter');
+            $config->removeComponentsByType(GridFieldAddExistingAutocompleter::class);
             $config->addComponent(new GridFieldAddExistingSearchButton());
             $operation = GridField::create('OperationManuals', 'Operation Manuals', $this->OperationManuals()->sort('Sort'), $config);
             $fields->addFieldsToTab('Root.Files.Operation', array(
@@ -221,7 +249,7 @@ class CatalogProduct extends DataObject implements PermissionProvider, Dynamic\V
             // Spec Sheets
             $config = GridFieldConfig_RecordEditor::create();
             $config->addComponent(new GridFieldOrderableRows('Sort'));
-            $config->removeComponentsByType('GridFieldAddExistingAutocompleter');
+            $config->removeComponentsByType(GridFieldAddExistingAutocompleter::class);
             $config->addComponent(new GridFieldAddExistingSearchButton());
             $specsheets = GridField::create('SpecSheets', 'Spec Sheets', $this->SpecSheets()->sort('Sort'), $config);
             $fields->addFieldsToTab('Root.Files.SpecSheets', array(
@@ -231,7 +259,7 @@ class CatalogProduct extends DataObject implements PermissionProvider, Dynamic\V
             // Warranties
             $config = GridFieldConfig_RecordEditor::create();
             $config->addComponent(new GridFieldOrderableRows('Sort'));
-            $config->removeComponentsByType('GridFieldAddExistingAutocompleter');
+            $config->removeComponentsByType(GridFieldAddExistingAutocompleter::class);
             $config->addComponent(new GridFieldAddExistingSearchButton());
             $warranties = GridField::create('Warranties', 'Warranties', $this->Warranties()->sort('Sort'), $config);
             $fields->addFieldsToTab('Root.Files.Warranty', array(
@@ -276,9 +304,7 @@ class CatalogProduct extends DataObject implements PermissionProvider, Dynamic\V
     }
 
     /**
-     * set Ancestors, needed for Blocks on Dataobjects
-     *
-     * @return DataList
+     * @return \SilverStripe\ORM\DataList
      */
     public function getAncestors()
     {
@@ -302,7 +328,7 @@ class CatalogProduct extends DataObject implements PermissionProvider, Dynamic\V
      *
      * @return bool|int
      */
-    public function canEdit($member = null)
+    public function canEdit($member = null, $context = [])
     {
         return Permission::check('Product_EDIT', 'any', $member);
     }
@@ -312,7 +338,7 @@ class CatalogProduct extends DataObject implements PermissionProvider, Dynamic\V
      *
      * @return bool|int
      */
-    public function canDelete($member = null)
+    public function canDelete($member = null, $context = [])
     {
         return Permission::check('Product_DELETE', 'any', $member);
     }
@@ -322,7 +348,7 @@ class CatalogProduct extends DataObject implements PermissionProvider, Dynamic\V
      *
      * @return bool|int
      */
-    public function canCreate($member = null)
+    public function canCreate($member = null, $context = [])
     {
         return Permission::check('Product_CREATE', 'any', $member);
     }
@@ -332,8 +358,16 @@ class CatalogProduct extends DataObject implements PermissionProvider, Dynamic\V
      *
      * @return bool
      */
-    public function canView($member = null)
+    public function canView($member = null, $context = [])
     {
         return true;
+    }
+
+    /**
+     * @return array
+     */
+    public function allowedChildren()
+    {
+        return [];
     }
 }

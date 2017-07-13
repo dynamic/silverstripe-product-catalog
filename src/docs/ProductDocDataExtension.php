@@ -1,12 +1,25 @@
 <?php
 
+namespace Dynamic\ProductCatalog\ORM;
+
+use Dynamic\ProductCatalog\Docs\ProductDoc;
+use SilverStripe\Core\ClassInfo;
+use SilverStripe\Forms\DropdownField;
+use SilverStripe\Forms\FieldList;
+use SilverStripe\Forms\GridField\GridField;
+use SilverStripe\Forms\GridField\GridFieldAddExistingAutocompleter;
+use SilverStripe\Forms\GridField\GridFieldAddNewButton;
+use SilverStripe\Forms\GridField\GridFieldConfig_RelationEditor;
+use SilverStripe\ORM\DataExtension;
+use Symbiote\GridFieldExtensions\GridFieldAddExistingSearchButton;
+
 class ProductDocDataExtension extends DataExtension
 {
     /**
      * @var array
      */
     private static $belongs_many_many = array(
-        'Products' => 'CatalogProduct',
+        'Products' => CatalogProduct::class,
     );
 
     /**
@@ -68,7 +81,7 @@ class ProductDocDataExtension extends DataExtension
             'Products',
         ));
 
-        $classes = ClassInfo::subclassesFor('ProductDoc');
+        $classes = ClassInfo::subclassesFor(ProductDoc::class);
         unset($classes['ProductDoc']);
 
         $result = array();
@@ -91,9 +104,9 @@ class ProductDocDataExtension extends DataExtension
         if ($this->owner->ID) {
             // products
             $config = GridFieldConfig_RelationEditor::create();
-            $config->removeComponentsByType('GridFieldAddExistingAutocompleter');
+            $config->removeComponentsByType(GridFieldAddExistingAutocompleter::class);
             $config->addComponent(new GridFieldAddExistingSearchButton());
-            $config->removeComponentsByType('GridFieldAddNewButton');
+            $config->removeComponentsByType(GridFieldAddNewButton::class);
             $products = $this->owner->Products();
             $productsField = GridField::create('Products', 'Products', $products, $config);
 
