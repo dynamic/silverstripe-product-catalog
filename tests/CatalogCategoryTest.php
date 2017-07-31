@@ -25,4 +25,20 @@ class CatalogCategoryTest extends SapphireTest
         $object = $this->objFromFixture('CatalogCategory', 'default');
         $this->assertInstanceOf('DataList', $object->getProductList());
     }
+
+    /**
+     *
+     */
+    public function testGetRelatedCategories()
+    {
+        $productCategoryOne = $this->objFromFixture('CatalogCategory', 'default');
+        $this->assertEquals(2, $productCategoryOne->getRelatedCategories()->count());
+        $productCategoryTwo = $this->objFromFixture('CatalogCategory', 'two');
+        $this->assertEquals(1, $productCategoryTwo->getRelatedCategories()->count());
+        $productCategoryThree = $this->objFromFixture('CatalogCategory', 'three');
+        $this->assertEquals(1, $productCategoryThree->getRelatedCategories()->count());
+        $productCategoryFour = $this->objFromFixture('CatalogCategory', 'four');
+        $this->assertEquals(0, $productCategoryFour->getRelatedCategories()->count());
+    }
+
 }

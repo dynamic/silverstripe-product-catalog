@@ -30,14 +30,24 @@ CatalogProduct:
   two:
     Title: "Product Two"
     URLSegment: "product-two"
+  three:
+    Title: "Product Three"
+    URLSegment: "product-three"
 CatalogCategory:
   default:
     Title: "Products"
     Products: =>CatalogProduct.one,=>CatalogProduct.two
+  two:
+    Title: "Category Two"
+    Products: =>CatalogProduct.one
+  three:
+    Title: "Category Three"
+    Products: =>CatalogProduct.two
+  four:
+    Title: "Category Four"
+    Products: =>CatalogProduct.three
   one:
     Title: 'Category One'
-  two:
-    Title: 'Category Two'
 File:
   one:
     Title: 'File One'
