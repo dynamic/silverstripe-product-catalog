@@ -11,6 +11,11 @@ class CatalogCategory extends Page
         'Products' => 'CatalogProduct',
     );
 
+    /**
+     * @var
+     */
+    private $related_categories;
+
     public function getCMSFields()
     {
         $fields = parent::getCMSFields();
@@ -49,6 +54,33 @@ class CatalogCategory extends Page
     {
         return $this->Products()->sort('SortOrder');
     }
+
+    /**
+     * @param null $categories
+     *
+     * @return $this
+     */
+    public function setRelatedCategories($categories = null)
+    {
+        if ($categories === null) {
+            $categories = $this->Products()->relation('Categories')->exclude('CatalogCategoryID', $this->ID);
+        }
+        $this->related_categories = $categories;
+
+        return $this;
+    }
+    /**
+     * @return mixed
+     */
+    public function getRelatedCategories()
+    {
+        if (!$this->related_categories) {
+            $this->setRelatedCategories();
+        }
+
+        return $this->related_categories;
+    }
+
 }
 
 class CatalogCategory_Controller extends Page_Controller
@@ -67,6 +99,7 @@ class CatalogCategory_Controller extends Page_Controller
 
     /**
      * @param SS_HTTPRequest $request
+     *
      * @return mixed
      */
     public function getProduct(SS_HTTPRequest $request = null)
@@ -74,10 +107,13 @@ class CatalogCategory_Controller extends Page_Controller
         if (!$this->product) {
             $this->setProduct($this->getProductFromRequest($request));
         }
+
         return $this->product;
     }
+
     /**
      * @param null $request
+     *
      * @return DataObject|void
      * @throws SS_HTTPResponse_Exception
      */
@@ -90,17 +126,22 @@ class CatalogCategory_Controller extends Page_Controller
         $productID = $request->param('ID');
         if ($productID) {
             $product = CatalogProduct::get()->filter('URLSegment', $productID)->first();
+
             return $product;
         }
+
         return false;
     }
+
     /**
      * @param $event
+     *
      * @return $this
      */
     public function setProduct($product)
     {
         $this->product = $product;
+
         return $this;
     }
 

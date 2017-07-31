@@ -13,8 +13,9 @@ class CatalogProductTest extends SapphireTest
     public function testCategoryList()
     {
         $object = $this->objFromFixture('CatalogProduct', 'one');
-        $expected = $this->objFromFixture('CatalogCategory', 'default')->Title;
-        $this->assertEquals($expected, $object->CategoryList());
+        $titleOne = $this->objFromFixture('CatalogCategory', 'default')->Title;
+        $titleTwo = $this->objFromFixture('CatalogCategory', 'two')->Title;
+        $this->assertTrue((bool) preg_match("({$titleOne}|{$titleTwo})", $object->CategoryList()));
     }
 
     /**
