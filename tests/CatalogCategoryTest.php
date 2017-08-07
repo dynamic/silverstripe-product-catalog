@@ -41,4 +41,14 @@ class CatalogCategoryTest extends SapphireTest
         $this->assertEquals(0, $productCategoryFour->getRelatedCategories()->count());
     }
 
+    /**
+     *
+     */
+    public function testGetSiblingCategories()
+    {
+        $category = $this->objFromFixture('CatalogCategory', 'two');
+        $this->assertEquals(2, $category->getSiblingCategories()->count());
+        $this->assertNull($category->getSiblingCategories()->find('ID', $category->ID));
+    }
+
 }
