@@ -23,6 +23,9 @@ Member:
     FirstName: Default
     Surname: Member
     Email: member
+Page:
+  default:
+    Title: "Default Page"
 CatalogProduct:
   one:
     Title: "Product One"
@@ -40,14 +43,17 @@ CatalogCategory:
   two:
     Title: "Category Two"
     Products: =>CatalogProduct.one
+    Parent: =>Page.default
   three:
     Title: "Category Three"
     Products: =>CatalogProduct.two
   four:
     Title: "Category Four"
     Products: =>CatalogProduct.three
+    Parent: =>Page.default
   one:
     Title: 'Category One'
+    Parent: =>Page.default
 File:
   one:
     Title: 'File One'

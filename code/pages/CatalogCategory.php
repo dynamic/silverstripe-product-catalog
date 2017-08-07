@@ -16,6 +16,11 @@ class CatalogCategory extends Page
      */
     private $related_categories;
 
+    /**
+     * @var
+     */
+    private $sibling_categories;
+
     public function getCMSFields()
     {
         $fields = parent::getCMSFields();
@@ -69,6 +74,7 @@ class CatalogCategory extends Page
 
         return $this;
     }
+
     /**
      * @return mixed
      */
@@ -79,6 +85,28 @@ class CatalogCategory extends Page
         }
 
         return $this->related_categories;
+    }
+
+    /**
+     * @return $this
+     */
+    public function setSiblingCategories()
+    {
+        $this->sibling_categories = self::get()->filter('ParentID', $this->ParentID)->exclude('ID', $this->ID);
+
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getSiblingCategories()
+    {
+        if (!$this->sibling_categories) {
+            $this->setSiblingCategories();
+        }
+
+        return $this->sibling_categories;
     }
 
 }
