@@ -21,7 +21,15 @@ class CatalogProduct extends DataObject implements PermissionProvider, Dynamic\V
         'QuickFeatures' => 'HTMLText',
         'Dimensions' => 'Varchar(255)',
         'SKU' => 'Varchar(50)',
+        'AllowInquiry' => 'Boolean',
     );
+
+    /**
+     * @var array
+     */
+    private static $has_many = [
+        'Inquiries' => 'CatalogProductInquiry',
+    ];
 
     /**
      * @var array
@@ -76,6 +84,13 @@ class CatalogProduct extends DataObject implements PermissionProvider, Dynamic\V
             'title' => 'Category',
         ),
     );
+
+    /**
+     * @var array
+     */
+    private static $defaults = [
+        'AllowInquiries' => true,
+    ];
 
     /**
      * @var array
@@ -237,6 +252,9 @@ class CatalogProduct extends DataObject implements PermissionProvider, Dynamic\V
             $fields->addFieldsToTab('Root.Files.Warranty', array(
                 $warranties,
             ));
+
+            $inquiries = $fields->dataFieldByName('Inquiries');
+            $inquiries->setConfig($inquiriesConfig = GridFieldConfig_RecordViewer::create());
         }
 
         return $fields;
