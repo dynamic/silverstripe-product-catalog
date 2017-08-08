@@ -3,7 +3,7 @@
 /**
  * Class CatalogProductInquiry
  */
-class CatalogProductInquiry extends DataObject
+class CatalogProductInquiry extends DataObject implements PermissionProvider
 {
 
     /**
@@ -62,29 +62,17 @@ class CatalogProductInquiry extends DataObject
     {
         $fields = parent::getFrontEndFields($params);
 
+        $value = (Controller::curr()->hasMethod('getProduct'))
+            ? Controller::curr()->getProduct()->ID
+            : 0;
+
         $fields->replaceField(
             'ProductID',
             HiddenField::create('ProductID')
-                ->setValue(Controller::curr()->getProduct()->ID)
+                ->setValue($value)
         );
 
         return $fields;
-    }
-
-    /**
-     * @param $params
-     *
-     * @return bool|int
-     */
-    protected function getProductIDForInquiry($params)
-    {
-        if (isset($params['ProductID'])) {
-            $product = CatalogProduct::get()->byID($params['ProductID']);
-        } else {
-            $product = CatalogProduct::get()->byURLSegment(Controller::curr()->getRequest()->param('ID'));
-        }
-
-        return (isset($product) && $product->ID) ? $product->ID : false;
     }
 
     /**
@@ -112,6 +100,67 @@ class CatalogProductInquiry extends DataObject
         $this->extend('updateFrontEndRequiredFields', $required);
 
         return $required;
+    }
+
+    /**
+     * @return array
+     */
+    public function providePermissions()
+    {
+        return [
+            'CatalogProductInquiry_delete' => [
+                'name' => 'Delete a Product Inquiry',
+                'category' => 'Product InquiryPermissions',
+            ],
+            'CatalogProductInquiry_view' => [
+                'name' => 'View a Product Inquiry',
+                'category' => 'Product InquiryPermissions',
+            ],
+        ];
+    }
+
+    /**
+     * @param null $member
+     *
+     * @return bool
+     */
+    public function canCreate($member = null)
+    {
+        return true;
+    }
+
+    /**
+     * @param null $member
+     *
+     * @return bool
+     */
+    public function canEdit($member = null)
+    {
+        return false;
+    }
+
+    /**
+     * @param null $member
+     *
+     * @return bool|int
+     */
+    public function canDelete($member = null)
+    {
+        $member = $member === null ? Member::currentUser() : $member;
+
+        return Permission::checkMember($member, 'CatalogProductInquiry_delete');
+    }
+
+    /**
+     * @param null $member
+     *
+     * @return bool|int
+     */
+    public function canView($member = null)
+    {
+        $member = $member === null ? Member::currentUser() : $member;
+
+        return Permission::checkMember($member, 'CatalogProductInquiry_view');
     }
 
 }
