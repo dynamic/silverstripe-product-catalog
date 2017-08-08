@@ -256,7 +256,8 @@ class CatalogCategory_Controller extends Page_Controller
         return $this->customise(ArrayData::create([
             'Title' => 'Contact Us',
             'Content' => $thanks,
+            'ProductLink' => ($product) ? $product->Link() : false,
             'Form' => false,
-        ]))->renderWith('Page', 'Page');
+        ]))->renderWith(['Product_success', 'Page', 'Page']);
     }
 }
