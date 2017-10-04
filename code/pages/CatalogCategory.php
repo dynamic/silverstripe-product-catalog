@@ -118,6 +118,8 @@ class CatalogCategory_Controller extends Page_Controller
      */
     private static $allowed_actions = array(
         'view',
+        'ProductInquiryForm',
+        'success',
     );
 
     /**
@@ -142,7 +144,7 @@ class CatalogCategory_Controller extends Page_Controller
     /**
      * @param null $request
      *
-     * @return DataObject|void
+     * @return DataObject|CatalogProduct|bool
      * @throws SS_HTTPResponse_Exception
      */
     public function getProductFromRequest($request = null)
@@ -162,7 +164,7 @@ class CatalogCategory_Controller extends Page_Controller
     }
 
     /**
-     * @param $event
+     * @param $product
      *
      * @return $this
      */
@@ -175,9 +177,12 @@ class CatalogCategory_Controller extends Page_Controller
 
     /**
      * @param SS_HTTPRequest $request
+     *
+     * @return HTMLText
      */
     public function view(SS_HTTPRequest $request)
     {
+
         $product = $this->getProduct();
         if (!$product) {
             return $this->httpError(404, 'The product you\'re looking for isn\'t available.');
@@ -188,6 +193,71 @@ class CatalogCategory_Controller extends Page_Controller
             'Product' => $product,
             'MetaTags' => $product->MetaTags(),
             'Breadcrumbs' => $product->Breadcrumbs(),
+            'AllowInquiries' => $product->AllowInquiry,
+            'ProductInquiryForm' => $this->ProductInquiryForm(),
         ))->renderWith(array('Product', 'Page'));
+    }
+
+    /**
+     * @return Form
+     */
+    public function ProductInquiryForm()
+    {
+        $form = CatalogProductInquiryForm::create($this, 'ProductInquiryForm');
+
+        if (class_exists('BootstrapForm')) {
+            $form->Fields()->bootstrapify();
+            $form->Actions()->bootstrapify();
+        }
+
+        $this->extend('updateProductInquiryForm', $form);
+
+        return $form;
+    }
+
+    /**
+     * @param $data
+     * @param Form $form
+     *
+     * @return SS_HTTPResponse
+     */
+    public function doProductInquiry($data, Form $form)
+    {
+        $submission = CatalogProductInquiry::create();
+        $form->saveInto($submission);
+        $submission->write();
+
+        Session::set('InquiryProductID', $submission->ProductID);
+
+        $template = 'ProductInquirySubmission';
+
+        // hook to allow for allowing email logic
+        $this->extend('sendInquiryEmail', $submission, $template);
+
+        return $this->redirect('success');
+    }
+
+    /**
+     * @return HTMLText
+     */
+    public function success()
+    {
+
+        $product = CatalogProduct::get()->byID(Session::get('InquiryProductID'));
+
+        $thanks = "Thank you for inquiring";
+
+        if ($product) {
+            $thanks .= " about {$product->Title}";
+        }
+
+        $this->extend('updateSuccessMessage', $thanks);
+
+        return $this->customise(ArrayData::create([
+            'Title' => 'Contact Us',
+            'Content' => $thanks,
+            'ProductLink' => ($product) ? $product->Link() : false,
+            'Form' => false,
+        ]))->renderWith(['Product_success', 'Page', 'Page']);
     }
 }
