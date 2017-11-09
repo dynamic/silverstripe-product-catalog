@@ -8,13 +8,6 @@ class CatalogCategoryTest extends SapphireTest
     protected static $fixture_file = 'product-catalog/tests/fixtures.yml';
 
     /**
-     * @var array
-     */
-    protected $extraDataObjects = [
-        'TestCatalogCategory',
-    ];
-
-    /**
      *
      */
     public function testGetCMSFields()
