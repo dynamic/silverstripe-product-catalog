@@ -7,6 +7,11 @@ class CatalogProductInquiryForm extends Form
 {
 
     /**
+     * @var
+     */
+    private $product;
+
+    /**
      * CatalogProductInquiryForm constructor.
      *
      * @param Controller $controller

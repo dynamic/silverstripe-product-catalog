@@ -62,9 +62,14 @@ class CatalogProductInquiry extends DataObject implements PermissionProvider
     {
         $fields = parent::getFrontEndFields($params);
 
-        $value = (Controller::curr()->hasMethod('getProduct'))
-            ? Controller::curr()->getProduct()->ID
-            : 0;
+        if (!isset($params['ProductID'])) {
+            $value = (Controller::curr()->hasMethod('getProduct') && Controller::curr()->getProduct())
+                ? Controller::curr()->getProduct()->ID
+                : 0;
+        } else {
+            $value = $params['ProductID'];
+        }
+
 
         $fields->replaceField(
             'ProductID',

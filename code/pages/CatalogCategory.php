@@ -182,7 +182,6 @@ class CatalogCategory_Controller extends Page_Controller
      */
     public function view(SS_HTTPRequest $request)
     {
-
         $product = $this->getProduct();
         if (!$product) {
             return $this->httpError(404, 'The product you\'re looking for isn\'t available.');
