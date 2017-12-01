@@ -1,5 +1,11 @@
 <?php
 
+namespace Dynamic\ProductCatalog\Test;
+
+use Dynamic\ProductCatalog\Docs\ProductDoc;
+use SilverStripe\Dev\SapphireTest;
+use SilverStripe\Forms\FieldList;
+
 class ProductDocTest extends SapphireTest
 {
     /**
@@ -12,9 +18,9 @@ class ProductDocTest extends SapphireTest
      */
     public function testGetCMSFields()
     {
-        $object = singleton('ProductDoc');
+        $object = singleton(ProductDoc::class);
         $fields = $object->getCMSFields();
-        $this->assertInstanceOf('FieldList', $fields);
+        $this->assertInstanceOf(FieldList::class, $fields);
     }
 
 

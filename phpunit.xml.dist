@@ -1,0 +1,14 @@
+<phpunit bootstrap="framework/tests/bootstrap.php" colors="true">
+    <testsuite name="product-catalog">
+        <directory>product-catalog/tests</directory>
+    </testsuite>
+
+    <filter>
+        <whitelist addUncoveredFilesFromWhitelist="true">
+            <directory suffix=".php">product-catalog/src/</directory>
+            <exclude>
+                <directory suffix=".php">product-catalog/tests/</directory>
+            </exclude>
+        </whitelist>
+    </filter>
+</phpunit>

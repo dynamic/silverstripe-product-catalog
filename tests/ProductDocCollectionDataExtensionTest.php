@@ -1,5 +1,12 @@
 <?php
 
+namespace Dynamic\ProductCatalog\Test;
+
+use Dynamic\ProductCatalog\Page\ProductDocCollectionController;
+use Dynamic\ProductCatalog\Docs\SpecSheet;
+use Dynamic\ProductCatalog\Page\ProductDocCollection;
+use SilverStripe\Dev\SapphireTest;
+
 class ProductDocCollectionDataExtensionTest extends SapphireTest
 {
     /**
@@ -12,9 +19,9 @@ class ProductDocCollectionDataExtensionTest extends SapphireTest
      */
     public function testUpdateCollectionObject()
     {
-        $object = $this->objFromFixture('ProductDocCollection', 'default');
-        $controller = ProductDocCollection_Controller::create($object);
-        $this->assertEquals($controller->getCollectionObject(), 'SpecSheet');
+        $object = $this->objFromFixture(ProductDocCollection::class, 'default');
+        $controller = ProductDocCollectionController::create($object);
+        $this->assertEquals($controller->getCollectionObject(), SpecSheet::class);
     }
 
     /**
@@ -22,8 +29,8 @@ class ProductDocCollectionDataExtensionTest extends SapphireTest
      */
     public function testUpdateCollectionForm()
     {
-        $object = $this->objFromFixture('ProductDocCollection', 'default');
-        $controller = ProductDocCollection_Controller::create($object);
+        $object = $this->objFromFixture(ProductDocCollection::class, 'default');
+        $controller = ProductDocCollectionController::create($object);
         $form = $controller->CollectionSearchForm();
         $this->assertNotNull($form->Fields()->dataFieldByName('CategoryID'));
         $this->assertNull($form->Fields()->dataFieldByName('Title'));

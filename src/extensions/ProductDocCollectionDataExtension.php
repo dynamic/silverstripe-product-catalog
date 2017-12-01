@@ -1,5 +1,12 @@
 <?php
 
+namespace Dynamic\ProductCatalog\ORM;
+
+use Dynamic\ProductCatalog\Page\CatalogCategory;
+use SilverStripe\Forms\DropdownField;
+use SilverStripe\ORM\ArrayList;
+use SilverStripe\ORM\DataExtension;
+
 class ProductDocCollectionDataExtension extends DataExtension
 {
     /**
@@ -18,19 +25,29 @@ class ProductDocCollectionDataExtension extends DataExtension
     public function updateCollectionForm(&$form)
     {
         $fields = $form->Fields();
+
         $fields->insertAfter(
-            SelectboxDropdownField::create('CategoryID', 'Category', CatalogCategory::get()->map())
+            DropdownField::create('CategoryID', 'Category', CatalogCategory::get()->map())
                 ->setEmptyString('All categories'),
-            'Products__ID'
+            'Title'
+        );
+
+        $fields->insertAfter(
+            DropdownField::create('Products__ID', 'Product', CatalogProduct::get()->map())
+                ->setEmptyString('All products'),
+            'CategoryID'
         );
 
         $fields->removeByName([
             'Name',
             'Title',
-            'Products__ID',
         ]);
     }
 
+    /**
+     * @param $collection
+     * @param $searchCriteria
+     */
     public function updateCollectionItems(&$collection, &$searchCriteria)
     {
         $class = $this->owner->data()->ManagedClass;

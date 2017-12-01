@@ -1,5 +1,11 @@
 <?php
 
+namespace Dynamic\ProductCatalog\Test;
+
+use Dynamic\ProductCatalog\Docs\CareCleaningDoc;
+use SilverStripe\Dev\SapphireTest;
+use SilverStripe\Forms\FieldList;
+
 class ProductDocDataExtensionTest extends SapphireTest
 {
     /**
@@ -12,7 +18,7 @@ class ProductDocDataExtensionTest extends SapphireTest
      */
     public function testGetProductsCt()
     {
-        $object = $this->objFromFixture('CareCleaningDoc', 'one');
+        $object = $this->objFromFixture(CareCleaningDoc::class, 'one');
         $this->assertEquals($object->getProductsCt(), 1);
     }
 
@@ -21,7 +27,7 @@ class ProductDocDataExtensionTest extends SapphireTest
      */
     public function testGetProductsList()
     {
-        $object = $this->objFromFixture('CareCleaningDoc', 'one');
+        $object = $this->objFromFixture(CareCleaningDoc::class, 'one');
         $this->assertEquals($object->getProductsList(), 'Product One');
     }
 
@@ -30,9 +36,9 @@ class ProductDocDataExtensionTest extends SapphireTest
      */
     public function testGetCMSFields()
     {
-        $object = $this->objFromFixture('CareCleaningDoc', 'one');
+        $object = $this->objFromFixture(CareCleaningDoc::class, 'one');
         $fields = $object->getCMSFields();
-        $this->assertInstanceOf('FieldList', $fields);
+        $this->assertInstanceOf(FieldList::class, $fields);
     }
 
     /**
@@ -40,7 +46,7 @@ class ProductDocDataExtensionTest extends SapphireTest
      */
     public function testLink()
     {
-        $object = $this->objFromFixture('CareCleaningDoc', 'one');
+        $object = $this->objFromFixture(CareCleaningDoc::class, 'one');
         $this->assertEquals($object->Link(), $object->Download()->URL);
     }
 
@@ -49,7 +55,7 @@ class ProductDocDataExtensionTest extends SapphireTest
      */
     public function testGetIsProductDoc()
     {
-        $object = $this->objFromFixture('CareCleaningDoc', 'one');
+        $object = $this->objFromFixture(CareCleaningDoc::class, 'one');
         $this->assertEquals($object->getIsProductDoc(), true);
     }
 }

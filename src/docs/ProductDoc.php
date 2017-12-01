@@ -1,5 +1,13 @@
 <?php
 
+namespace Dynamic\ProductCatalog\Docs;
+
+use SilverStripe\AssetAdmin\Forms\UploadField;
+use SilverStripe\Assets\File;
+use SilverStripe\Assets\Image;
+use SilverStripe\Forms\TextField;
+use SilverStripe\ORM\DataObject;
+
 class ProductDoc extends DataObject
 {
     /**
@@ -16,9 +24,14 @@ class ProductDoc extends DataObject
      * @var array
      */
     private static $has_one = array(
-        'Image' => 'Image',
-        'Download' => 'File',
+        'Image' => Image::class,
+        'Download' => File::class,
     );
+
+    /**
+     * @var string
+     */
+    private static $table_name = 'ProductDoc';
 
     /**
      * @var array
@@ -42,17 +55,18 @@ class ProductDoc extends DataObject
     private static $default_sort = 'Title';
 
     /**
-     * @return FieldList
+     * @return \SilverStripe\Forms\FieldList
      */
     public function getCMSFields()
     {
         $fields = parent::getCMSFields();
 
         $file = UploadField::create('Download')
-            ->setFolderName('Uploads/FileDownloads')
-            ->setConfig('allowedMaxFileNumber', 1)
-            ->setAllowedFileCategories('doc')
-            ->setAllowedMaxFileNumber(1);
+            //->setFolderName('Uploads/FileDownloads')
+            //->setConfig('allowedMaxFileNumber', 1)
+            //->setAllowedFileCategories('doc')
+            //->setAllowedMaxFileNumber(1)
+        ;
 
         $fields->addFieldsToTab('Root.Download', array(
             $file,
@@ -62,9 +76,10 @@ class ProductDoc extends DataObject
         ));
 
         $fields->insertBefore(
-            ImageUploadField::create('Image')
-                ->setFolderName('Uploads/ProductDocs/Images')
-                ->setDescription('Preview image of file'),
+            UploadField::create('Image')
+                //->setFolderName('Uploads/ProductDocs/Images')
+                ->setDescription('Preview image of file')
+            ,
             'Content'
         );
 

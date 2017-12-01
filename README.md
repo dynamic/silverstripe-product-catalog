@@ -11,11 +11,11 @@ simple, extendable product catalog
 
 ## Requirements
 
-- SilverStripe 3.2
+- SilverStripe ^4.0
 
 ## Installation
 
-This is how you install silverstripe-product-catalog.
+`composer require dynamic/silverstripe-product-catalog 2.0.x-dev`
 
 ## Example usage
 

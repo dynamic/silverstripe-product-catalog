@@ -1,67 +1,67 @@
-Group:
+SilverStripe\Security\Group:
   administrators:
     Title: Administrators
   content_authors:
     Title: "Content Authors"
-Permission:
+SilverStripe\Security\Permission:
   administrators:
     Code: ADMIN
     Type: 1
-    Group: =>Group.administrators
-Member:
+    Group: =>SilverStripe\Security\Group.administrators
+SilverStripe\Security\Member:
   admin:
     FirstName: Default
     Surname: Admin
     Email: administrator
-    Groups: =>Group.administrators
+    Groups: =>SilverStripe\Security\Group.administrators
   author:
     FirstName: "Content"
     Surname: "Author"
     Email: "content"
-    Groups: =>Group.content_authors
+    Groups: =>SilverStripe\Security\Group.content_authors
   default:
     FirstName: Default
     Surname: Member
     Email: member
-CatalogProduct:
+Dynamic\ProductCatalog\ORM\CatalogProduct:
   one:
     Title: "Product One"
     URLSegment: "product-one"
   two:
     Title: "Product Two"
     URLSegment: "product-two"
-CatalogCategory:
+Dynamic\ProductCatalog\Page\CatalogCategory:
   default:
     Title: "Products"
-    Products: =>CatalogProduct.one,=>CatalogProduct.two
+    Products: =>Dynamic\ProductCatalog\ORM\CatalogProduct.one,=>Dynamic\ProductCatalog\ORM\CatalogProduct.two
   one:
     Title: 'Category One'
   two:
     Title: 'Category Two'
-File:
+SilverStripe\Assets\File:
   one:
     Title: 'File One'
     URL: 'assets/Uploads/files'
-CareCleaningDoc:
+Dynamic\ProductCatalog\Docs\CareCleaningDoc:
   one:
     Title: "Care & Cleaning"
-    Products: =>CatalogProduct.one
-OperationManual:
+    Products: =>Dynamic\ProductCatalog\ORM\CatalogProduct.one
+Dynamic\ProductCatalog\Docs\OperationManual:
   one:
     Title: "Operation Manual"
-    Products: =>CatalogProduct.one
-SpecSheet:
+    Products: =>Dynamic\ProductCatalog\ORM\CatalogProduct.one
+Dynamic\ProductCatalog\Docs\SpecSheet:
   one:
     Title: "Spec Sheet"
-    Products: =>CatalogProduct.one
-Warranty:
+    Products: =>Dynamic\ProductCatalog\ORM\CatalogProduct.one
+Dynamic\ProductCatalog\Docs\Warranty:
   one:
     Title: "Warranty"
-    Products: =>CatalogProduct.one
-ProductDoc:
+    Products: =>Dynamic\ProductCatalog\ORM\CatalogProduct.one
+Dynamic\ProductCatalog\Docs\ProductDoc:
   one:
     Name: 'ProductDoc'
-ProductDocCollection:
+Dynamic\ProductCatalog\Page\ProductDocCollection:
   default:
     Title: 'Spec Sheets'
-    ManagedClass: 'SpecSheet'
+    ManagedClass: 'Dynamic\ProductCatalog\Docs\SpecSheet'
