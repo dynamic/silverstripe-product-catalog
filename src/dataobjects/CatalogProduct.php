@@ -84,6 +84,11 @@ class CatalogProduct extends DataObject implements PermissionProvider, ViewableD
     private static $table_name = 'CatalogProdcut';
 
     /**
+     * @var bool
+     */
+    private static $versioned_gridfield_extensions = true;
+
+    /**
      * @var array
      */
     private static $summary_fields = array(
