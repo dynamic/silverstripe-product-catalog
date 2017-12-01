@@ -11,7 +11,7 @@ class ProductDocCollectionTest extends SapphireTest
     /**
      * @var string
      */
-    protected static $fixture_file = 'product-catalog/tests/fixtures.yml';
+    protected static $fixture_file = 'fixtures.yml';
 
     /**
      *
