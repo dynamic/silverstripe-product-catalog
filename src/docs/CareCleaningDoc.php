@@ -1,6 +1,6 @@
 <?php
 
-namespace Dynamic\ProductCatalog\docs;
+namespace Dynamic\ProductCatalog\Docs;
 
 use SilverStripe\Forms\FieldList;
 use SilverStripe\Security\Permission;

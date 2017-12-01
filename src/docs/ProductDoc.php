@@ -1,6 +1,6 @@
 <?php
 
-namespace Dynamic\ProductCatalog\docs;
+namespace Dynamic\ProductCatalog\Docs;
 
 use SilverStripe\AssetAdmin\Forms\UploadField;
 use SilverStripe\Assets\File;
@@ -61,11 +61,13 @@ class ProductDoc extends DataObject
     {
         $fields = parent::getCMSFields();
 
+        $fields->removeByName([
+            'Products',
+        ]);
+
         $file = UploadField::create('Download')
-            //->setFolderName('Uploads/FileDownloads')
-            //->setConfig('allowedMaxFileNumber', 1)
+            ->setFolderName('Uploads/FileDownloads')
             //->setAllowedFileCategories('doc')
-            //->setAllowedMaxFileNumber(1)
         ;
 
         $fields->addFieldsToTab('Root.Download', array(

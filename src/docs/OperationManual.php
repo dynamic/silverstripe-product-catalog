@@ -1,6 +1,6 @@
 <?php
 
-namespace Dynamic\ProductCatalog\docs;
+namespace Dynamic\ProductCatalog\Docs;
 
 use SilverStripe\Security\Permission;
 use SilverStripe\Security\PermissionProvider;

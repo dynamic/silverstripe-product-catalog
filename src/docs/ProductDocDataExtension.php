@@ -105,6 +105,7 @@ class ProductDocDataExtension extends DataExtension
 
         if ($this->owner->ID) {
             // products
+            /*
             $config = GridFieldConfig_RelationEditor::create();
             $config->removeComponentsByType(GridFieldAddExistingAutocompleter::class);
             $config->addComponent(new GridFieldAddExistingSearchButton());
@@ -113,6 +114,7 @@ class ProductDocDataExtension extends DataExtension
             $productsField = GridField::create('Products', 'Products', $products, $config);
 
             $fields->addFieldToTab('Root.Products', $productsField);
+            */
         }
     }
 

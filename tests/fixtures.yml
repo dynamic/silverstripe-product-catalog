@@ -23,10 +23,37 @@ SilverStripe\Security\Member:
     FirstName: Default
     Surname: Member
     Email: member
+SilverStripe\Assets\File:
+  one:
+    Title: 'File One'
+    URL: 'assets/Uploads/files'
+Dynamic\ProductCatalog\Docs\CareCleaningDoc:
+  one:
+    Title: "Care & Cleaning"
+Dynamic\ProductCatalog\Docs\OperationManual:
+  one:
+    Title: "Operation Manual"
+Dynamic\ProductCatalog\Docs\SpecSheet:
+  one:
+    Title: "Spec Sheet"
+Dynamic\ProductCatalog\Docs\Warranty:
+  one:
+    Title: "Warranty"
+Dynamic\ProductCatalog\Docs\ProductDoc:
+  one:
+    Name: 'ProductDoc'
+Dynamic\ProductCatalog\Page\ProductDocCollection:
+  default:
+    Title: 'Spec Sheets'
+    ManagedClass: 'Dynamic\ProductCatalog\Docs\SpecSheet'
 Dynamic\ProductCatalog\ORM\CatalogProduct:
   one:
     Title: "Product One"
     URLSegment: "product-one"
+    CareCleaningDocs: =>Dynamic\ProductCatalog\Docs\CareCleaningDoc.one
+    OperationManuals: =>Dynamic\ProductCatalog\Docs\OperationManual.one
+    SpecSheets: =>Dynamic\ProductCatalog\Docs\SpecSheet.one
+    Warranties: =>Dynamic\ProductCatalog\Docs\Warranty.one
   two:
     Title: "Product Two"
     URLSegment: "product-two"
@@ -38,30 +65,3 @@ Dynamic\ProductCatalog\Page\CatalogCategory:
     Title: 'Category One'
   two:
     Title: 'Category Two'
-SilverStripe\Assets\File:
-  one:
-    Title: 'File One'
-    URL: 'assets/Uploads/files'
-Dynamic\ProductCatalog\Docs\CareCleaningDoc:
-  one:
-    Title: "Care & Cleaning"
-    Products: =>Dynamic\ProductCatalog\ORM\CatalogProduct.one
-Dynamic\ProductCatalog\Docs\OperationManual:
-  one:
-    Title: "Operation Manual"
-    Products: =>Dynamic\ProductCatalog\ORM\CatalogProduct.one
-Dynamic\ProductCatalog\Docs\SpecSheet:
-  one:
-    Title: "Spec Sheet"
-    Products: =>Dynamic\ProductCatalog\ORM\CatalogProduct.one
-Dynamic\ProductCatalog\Docs\Warranty:
-  one:
-    Title: "Warranty"
-    Products: =>Dynamic\ProductCatalog\ORM\CatalogProduct.one
-Dynamic\ProductCatalog\Docs\ProductDoc:
-  one:
-    Name: 'ProductDoc'
-Dynamic\ProductCatalog\Page\ProductDocCollection:
-  default:
-    Title: 'Spec Sheets'
-    ManagedClass: 'Dynamic\ProductCatalog\Docs\SpecSheet'
