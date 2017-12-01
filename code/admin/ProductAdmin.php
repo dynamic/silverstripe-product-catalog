@@ -23,4 +23,10 @@ class ProductAdmin extends ModelAdmin
      */
     private static $menu_title = 'Products';
 
+    /**
+     * @config
+     * @var string
+     */
+    private static $menu_icon = 'product-catalog/images/product.png';
+
 }
