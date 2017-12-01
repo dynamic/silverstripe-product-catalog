@@ -1,6 +1,6 @@
 <?php
 
-namespace Dynamic\ProductCatalog\admin;
+namespace Dynamic\ProductCatalog\Admin;
 
 use Dynamic\ProductCatalog\Docs\CareCleaningDoc;
 use Dynamic\ProductCatalog\Docs\OperationManual;
