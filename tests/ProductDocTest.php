@@ -22,6 +22,4 @@ class ProductDocTest extends SapphireTest
         $fields = $object->getCMSFields();
         $this->assertInstanceOf(FieldList::class, $fields);
     }
-
-
 }

@@ -48,6 +48,7 @@ class ProductDocDataExtension extends DataExtension
         if ($this->owner->Products()->exists()) {
             return $this->owner->Products()->count();
         }
+
         return 0;
     }
 
@@ -60,13 +61,14 @@ class ProductDocDataExtension extends DataExtension
 
         if ($this->owner->Products()->exists()) {
             $i = 0;
-            foreach($this->owner->Products() as $product) {
+            foreach ($this->owner->Products() as $product) {
                 $list .= $product->Title;
-                if(++$i !== $this->owner->Products()->Count()) {
-                    $list .= ", ";
+                if (++$i !== $this->owner->Products()->Count()) {
+                    $list .= ', ';
                 }
             }
         }
+
         return $list;
     }
 
@@ -115,7 +117,7 @@ class ProductDocDataExtension extends DataExtension
     }
 
     /**
-     * Link for searchable result set
+     * Link for searchable result set.
      *
      * @return mixed
      */
@@ -127,7 +129,8 @@ class ProductDocDataExtension extends DataExtension
     /**
      * @return bool
      */
-    public function getIsProductDoc() {
+    public function getIsProductDoc()
+    {
         return true;
     }
 }

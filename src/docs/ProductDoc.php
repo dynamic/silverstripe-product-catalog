@@ -1,6 +1,6 @@
 <?php
 
-namespace Dynamic\ProductCatalog\Docs;
+namespace Dynamic\ProductCatalog\docs;
 
 use SilverStripe\AssetAdmin\Forms\UploadField;
 use SilverStripe\Assets\File;
@@ -78,8 +78,7 @@ class ProductDoc extends DataObject
         $fields->insertBefore(
             UploadField::create('Image')
                 //->setFolderName('Uploads/ProductDocs/Images')
-                ->setDescription('Preview image of file')
-            ,
+                ->setDescription('Preview image of file'),
             'Content'
         );
 

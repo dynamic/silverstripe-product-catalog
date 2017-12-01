@@ -1,6 +1,6 @@
 <?php
 
-namespace Dynamic\ProductCatalog\Admin;
+namespace Dynamic\ProductCatalog\admin;
 
 use Dynamic\ProductCatalog\Docs\CareCleaningDoc;
 use Dynamic\ProductCatalog\Docs\OperationManual;
@@ -31,5 +31,4 @@ class ProductAdmin extends ModelAdmin
      * @var string
      */
     private static $menu_title = 'Products';
-
 }
