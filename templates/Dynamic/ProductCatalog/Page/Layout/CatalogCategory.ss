@@ -19,13 +19,13 @@
 	<hr />
 
 	$CollectionSearchForm
-  <div class="clearfix"></div>
+  	<div class="clearfix"></div>
 
 	<% if $ProductList %>
 		<div class="product-list row">
 			<% loop $ProductList %>
 				<% include ProductSummary %>
-				<% if MultipleOf(5,1) %><div class="clearfix"></div><% end_if %>
+				<% if $MultipleOf(5,1) %><div class="clearfix"></div><% end_if %>
 			<% end_loop %>
 		</div>
 		<% with $ProductList %>
@@ -36,7 +36,4 @@
 	<% end_if %>
 
 	$Form
-</div>
-<div class="col-sm-12">
-		$BlockArea(AfterContent)
 </div>

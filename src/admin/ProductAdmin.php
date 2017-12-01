@@ -31,5 +31,4 @@ class ProductAdmin extends ModelAdmin
      * @var string
      */
     private static $menu_title = 'Products';
-
 }

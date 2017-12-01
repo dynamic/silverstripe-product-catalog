@@ -11,7 +11,7 @@ class ProductDocTest extends SapphireTest
     /**
      * @var string
      */
-    protected static $fixture_file = 'product-catalog/tests/fixtures.yml';
+    protected static $fixture_file = 'fixtures.yml';
 
     /**
      *
@@ -22,6 +22,4 @@ class ProductDocTest extends SapphireTest
         $fields = $object->getCMSFields();
         $this->assertInstanceOf(FieldList::class, $fields);
     }
-
-
 }

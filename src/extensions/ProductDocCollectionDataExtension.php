@@ -57,7 +57,7 @@ class ProductDocCollectionDataExtension extends DataExtension
             $products = $category->Products();
             $docs = new ArrayList();
 
-            foreach($products as $product) {
+            foreach ($products as $product) {
                 $records = $class::get()->filter(['Products.ID' => $product->ID]);
                 foreach ($records as $record) {
                     $docs->push($record);

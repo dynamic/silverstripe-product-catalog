@@ -1,5 +1,5 @@
-<% require css('flexslider/thirdparty/flexslider/flexslider.css') %>
-<% require css('flexslider/css/silverstripe-flexslider.css') %>
+<% require css('resources/dynamic/flexslider/thirdparty/flexslider/flexslider.css') %>
+<% require css('resources/dynamic/flexslider/css/silverstripe-flexslider.css') %>
 <div class="col-md-12 crumbs">
 	$Breadcrumbs
 </div>
@@ -146,5 +146,5 @@
 	</div>
 </div>
 <% end_with %>
-<% require javascript('silverstripe-admin/thirdparty/jquery/jquery.min.js') %>
-<% require javascript('flexslider/thirdparty/flexslider/jquery.flexslider-min.js') %>
+<% require javascript('resources/silverstripe/admin/thirdparty/jquery/jquery.min.js') %>
+<% require javascript('resources/dynamic/flexslider/thirdparty/flexslider/jquery.flexslider-min.js') %>

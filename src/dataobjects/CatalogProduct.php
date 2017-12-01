@@ -9,7 +9,6 @@ use Dynamic\ProductCatalog\Docs\Warranty;
 use Dynamic\ProductCatalog\Page\CatalogCategory;
 use Dynamic\ViewableDataObject\VDOInterfaces\ViewableDataObjectInterface;
 use SilverStripe\Assets\Image;
-use SilverStripe\Dev\Debug;
 use SilverStripe\Forms\GridField\GridField;
 use SilverStripe\Forms\GridField\GridFieldAddExistingAutocompleter;
 use SilverStripe\Forms\GridField\GridFieldAddNewButton;
@@ -84,6 +83,11 @@ class CatalogProduct extends DataObject implements PermissionProvider, ViewableD
     private static $table_name = 'CatalogProdcut';
 
     /**
+     * @var bool
+     */
+    private static $versioned_gridfield_extensions = true;
+
+    /**
      * @var array
      */
     private static $summary_fields = array(
@@ -112,6 +116,7 @@ class CatalogProduct extends DataObject implements PermissionProvider, ViewableD
 
     /**
      * @param bool $includerelations
+     *
      * @return array|string
      */
     public function fieldLabels($includerelations = true)
@@ -135,11 +140,12 @@ class CatalogProduct extends DataObject implements PermissionProvider, ViewableD
             $i = 0;
             foreach ($this->Categories()->sort('SortOrder') as $category) {
                 $list .= $category->Title;
-                if(++$i !== $this->Categories()->Count()) {
-                    $list .= ", ";
+                if (++$i !== $this->Categories()->Count()) {
+                    $list .= ', ';
                 }
             }
         }
+
         return $list;
     }
 
@@ -154,6 +160,7 @@ class CatalogProduct extends DataObject implements PermissionProvider, ViewableD
                 return $slide->Image();
             }
         }
+
         return false;
     }
 
@@ -175,6 +182,7 @@ class CatalogProduct extends DataObject implements PermissionProvider, ViewableD
                 return $thumb->CMSThumbnail();
             }
         }
+
         return false;
     }
 
@@ -231,7 +239,12 @@ class CatalogProduct extends DataObject implements PermissionProvider, ViewableD
             $config->addComponent(new GridFieldOrderableRows('Sort'));
             $config->removeComponentsByType(GridFieldAddExistingAutocompleter::class);
             $config->addComponent(new GridFieldAddExistingSearchButton());
-            $operation = GridField::create('CareCleaningDocs', 'Care and Cleaning', $this->CareCleaningDocs()->sort('Sort'), $config);
+            $operation = GridField::create(
+                'CareCleaningDocs',
+                'Care and Cleaning',
+                $this->CareCleaningDocs()->sort('Sort'),
+                $config
+            );
             $fields->addFieldsToTab('Root.Files.Care', array(
                 $operation,
             ));
@@ -241,7 +254,12 @@ class CatalogProduct extends DataObject implements PermissionProvider, ViewableD
             $config->addComponent(new GridFieldOrderableRows('Sort'));
             $config->removeComponentsByType(GridFieldAddExistingAutocompleter::class);
             $config->addComponent(new GridFieldAddExistingSearchButton());
-            $operation = GridField::create('OperationManuals', 'Operation Manuals', $this->OperationManuals()->sort('Sort'), $config);
+            $operation = GridField::create(
+                'OperationManuals',
+                'Operation Manuals',
+                $this->OperationManuals()->sort('Sort'),
+                $config
+            );
             $fields->addFieldsToTab('Root.Files.Operation', array(
                 $operation,
             ));
@@ -280,11 +298,12 @@ class CatalogProduct extends DataObject implements PermissionProvider, ViewableD
         } else {
             $category = CatalogCategory::get()->first();
         }
+
         return $category;
     }
 
     /**
-     * set ParentPage for ViewableDataobject
+     * set ParentPage for ViewableDataobject.
      *
      * @return string
      */
@@ -294,7 +313,7 @@ class CatalogProduct extends DataObject implements PermissionProvider, ViewableD
     }
 
     /**
-     * set ViewAction for ViewableDataobject
+     * set ViewAction for ViewableDataobject.
      *
      * @return string
      */

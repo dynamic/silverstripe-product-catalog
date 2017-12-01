@@ -61,11 +61,13 @@ class ProductDoc extends DataObject
     {
         $fields = parent::getCMSFields();
 
+        $fields->removeByName([
+            'Products',
+        ]);
+
         $file = UploadField::create('Download')
-            //->setFolderName('Uploads/FileDownloads')
-            //->setConfig('allowedMaxFileNumber', 1)
+            ->setFolderName('Uploads/FileDownloads')
             //->setAllowedFileCategories('doc')
-            //->setAllowedMaxFileNumber(1)
         ;
 
         $fields->addFieldsToTab('Root.Download', array(
@@ -78,8 +80,7 @@ class ProductDoc extends DataObject
         $fields->insertBefore(
             UploadField::create('Image')
                 //->setFolderName('Uploads/ProductDocs/Images')
-                ->setDescription('Preview image of file')
-            ,
+                ->setDescription('Preview image of file'),
             'Content'
         );
 

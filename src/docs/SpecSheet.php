@@ -2,6 +2,7 @@
 
 namespace Dynamic\ProductCatalog\Docs;
 
+use SilverStripe\Forms\FieldList;
 use SilverStripe\Security\Permission;
 use SilverStripe\Security\PermissionProvider;
 
