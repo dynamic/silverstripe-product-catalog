@@ -1,26 +1,24 @@
 <% if MoreThanOnePage %>
-	<div class="apple_pagination clearfix">
-		<% if NotFirstPage %>
-			<a class="previous_page" href="$PrevLink" rel="previous">&lt; Previous</a></span>
-		<% else %>	
-			<span class="disabled previous_page">&lt; Previous</span>
-		<% end_if %>
-		
-		<% loop PaginationSummary(4) %>
-			<% if CurrentBool %>
-				<em class="current">$PageNum</em>
-			<% else %>
-				<% if Link %>
-					<a href="$Link">$PageNum</a>
-				<% else %>
-					<em>...</em>						
-				<% end_if %>
-			<% end_if %>
-		<% end_loop %>
-		<% if NotLastPage %>
-			<a class="next_page" href="$NextLink" rel="next">Next &gt;</a>
-		<% else %>
-			<span class="disabled next_page">Next &gt;</span>
-		<% end_if %>
-	</div>
+    <nav aria-label="$Title pagination">
+        <ul class="pagination justify-content-center">
+            <% if NotFirstPage %>
+                <li class="page-item"><a href="$PrevLink" class="page-link" aria-label="Previous" title="Go to the previous page"><span aria-hidden="true">&laquo;</span></a></li>
+            <% end_if %>
+
+            <% loop PaginationSummary(4) %>
+                <% if CurrentBool %>
+                    <li class="page-item active"><span class="page-link">$PageNum <span class="sr-only">(current)</span></span></li>
+                <% else %>
+                    <% if Link %>
+                        <li class="page-item"><a href="$Link" class="page-link" title="Go to page $PageNum">$PageNum</a></li>
+                    <% else %>
+                        <em>...</em>
+                    <% end_if %>
+                <% end_if %>
+            <% end_loop %>
+            <% if NotLastPage %>
+                <li class="page-item"><a href="$NextLink" class="page-link" aria-label="Next" title="Go to the next page"><span aria-hidden="true">&raquo;</span></a></li>
+            <% end_if %>
+        </ul>
+    </nav>
 <% end_if %>
