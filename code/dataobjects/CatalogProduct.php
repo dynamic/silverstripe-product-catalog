@@ -170,94 +170,94 @@ class CatalogProduct extends DataObject implements PermissionProvider, Dynamic\V
      */
     public function getCMSFields()
     {
-        $fields = parent::getCMSFields();
+        $this->beforeUpdateCMSFields(function ($fields) {
+            /** @var \FieldList $fields */
+            $remove = [
+                'Categories',
+                'CareCleaningDocs',
+                'OperationManuals',
+                'SpecSheets',
+                'Warranties',
+                'DisabledBlocks',
+            ];
 
-        $remove = [
-            'Categories',
-            'CareCleaningDocs',
-            'OperationManuals',
-            'SpecSheets',
-            'Warranties',
-            'DisabledBlocks',
-        ];
+            if (!$this->ID) {
+                $remove[] = 'Blocks';
+            }
 
-        if (!$this->ID) {
-            $remove[] = 'Blocks';
-        }
+            $fields->removeByName($remove);
 
-        $fields->removeByName($remove);
+            $fields->insertBefore(
+                $fields->dataFieldByName('SKU'),
+                'Content'
+            );
 
-        $fields->insertBefore(
-            $fields->dataFieldByName('SKU'),
-            'Content'
-        );
-
-        $fields->addFieldsToTab('Root.Info', array(
-            TextField::create('Dimensions'),
-            HTMLEditorField::create('QuickFeatures'),
-        ));
-
-        if ($this->ID) {
-            // Categories
-            $config = GridFieldConfig_RelationEditor::create();
-            $config->addComponent(new GridFieldOrderableRows('SortOrder'));
-            $config->removeComponentsByType('GridFieldAddExistingAutocompleter');
-            $config->addComponent(new GridFieldAddExistingSearchButton());
-            $config->removeComponentsByType('GridFieldAddNewButton');
-            $categories = $this->Categories()->sort('SortOrder');
-            $categoryField = GridField::create('Categories', 'Categories', $categories, $config);
-
-            $fields->addFieldsToTab('Root.Categories.Categories', array(
-                $categoryField,
+            $fields->addFieldsToTab('Root.Info', array(
+                TextField::create('Dimensions'),
+                HTMLEditorField::create('QuickFeatures'),
             ));
 
-            // Care and Cleaning
-            $config = GridFieldConfig_RecordEditor::create();
-            $config->addComponent(new GridFieldOrderableRows('Sort'));
-            $config->removeComponentsByType('GridFieldAddExistingAutocompleter');
-            $config->addComponent(new GridFieldAddExistingSearchButton());
-            $operation = GridField::create('CareCleaningDocs', 'Care and Cleaning',
-                $this->CareCleaningDocs()->sort('Sort'), $config);
-            $fields->addFieldsToTab('Root.Files.Care', array(
-                $operation,
-            ));
+            if ($this->ID) {
+                // Categories
+                $config = GridFieldConfig_RelationEditor::create();
+                $config->addComponent(new GridFieldOrderableRows('SortOrder'));
+                $config->removeComponentsByType('GridFieldAddExistingAutocompleter');
+                $config->addComponent(new GridFieldAddExistingSearchButton());
+                $config->removeComponentsByType('GridFieldAddNewButton');
+                $categories = $this->Categories()->sort('SortOrder');
+                $categoryField = GridField::create('Categories', 'Categories', $categories, $config);
 
-            // Operation Manuals
-            $config = GridFieldConfig_RecordEditor::create();
-            $config->addComponent(new GridFieldOrderableRows('Sort'));
-            $config->removeComponentsByType('GridFieldAddExistingAutocompleter');
-            $config->addComponent(new GridFieldAddExistingSearchButton());
-            $operation = GridField::create('OperationManuals', 'Operation Manuals',
-                $this->OperationManuals()->sort('Sort'), $config);
-            $fields->addFieldsToTab('Root.Files.Operation', array(
-                $operation,
-            ));
+                $fields->addFieldsToTab('Root.Categories.Categories', array(
+                    $categoryField,
+                ));
 
-            // Spec Sheets
-            $config = GridFieldConfig_RecordEditor::create();
-            $config->addComponent(new GridFieldOrderableRows('Sort'));
-            $config->removeComponentsByType('GridFieldAddExistingAutocompleter');
-            $config->addComponent(new GridFieldAddExistingSearchButton());
-            $specsheets = GridField::create('SpecSheets', 'Spec Sheets', $this->SpecSheets()->sort('Sort'), $config);
-            $fields->addFieldsToTab('Root.Files.SpecSheets', array(
-                $specsheets,
-            ));
+                // Care and Cleaning
+                $config = GridFieldConfig_RelationEditor::create();
+                $config->addComponent(new GridFieldOrderableRows('Sort'));
+                $config->removeComponentsByType('GridFieldAddExistingAutocompleter');
+                $config->addComponent(new GridFieldAddExistingSearchButton());
+                $operation = GridField::create('CareCleaningDocs', 'Care and Cleaning',
+                    $this->CareCleaningDocs()->sort('Sort'), $config);
+                $fields->addFieldsToTab('Root.Files.Care', array(
+                    $operation,
+                ));
 
-            // Warranties
-            $config = GridFieldConfig_RecordEditor::create();
-            $config->addComponent(new GridFieldOrderableRows('Sort'));
-            $config->removeComponentsByType('GridFieldAddExistingAutocompleter');
-            $config->addComponent(new GridFieldAddExistingSearchButton());
-            $warranties = GridField::create('Warranties', 'Warranties', $this->Warranties()->sort('Sort'), $config);
-            $fields->addFieldsToTab('Root.Files.Warranty', array(
-                $warranties,
-            ));
+                // Operation Manuals
+                $config = GridFieldConfig_RelationEditor::create();
+                $config->addComponent(new GridFieldOrderableRows('Sort'));
+                $config->removeComponentsByType('GridFieldAddExistingAutocompleter');
+                $config->addComponent(new GridFieldAddExistingSearchButton());
+                $operation = GridField::create('OperationManuals', 'Operation Manuals',
+                    $this->OperationManuals()->sort('Sort'), $config);
+                $fields->addFieldsToTab('Root.Files.Operation', array(
+                    $operation,
+                ));
 
-            $inquiries = $fields->dataFieldByName('Inquiries');
-            $inquiries->setConfig($inquiriesConfig = GridFieldConfig_RecordViewer::create());
-        }
+                // Spec Sheets
+                $config = GridFieldConfig_RelationEditor::create();
+                $config->addComponent(new GridFieldOrderableRows('Sort'));
+                $config->removeComponentsByType('GridFieldAddExistingAutocompleter');
+                $config->addComponent(new GridFieldAddExistingSearchButton());
+                $specsheets = GridField::create('SpecSheets', 'Spec Sheets', $this->SpecSheets()->sort('Sort'), $config);
+                $fields->addFieldsToTab('Root.Files.SpecSheets', array(
+                    $specsheets,
+                ));
 
-        return $fields;
+                // Warranties
+                $config = GridFieldConfig_RelationEditor::create();
+                $config->addComponent(new GridFieldOrderableRows('Sort'));
+                $config->removeComponentsByType('GridFieldAddExistingAutocompleter');
+                $config->addComponent(new GridFieldAddExistingSearchButton());
+                $warranties = GridField::create('Warranties', 'Warranties', $this->Warranties()->sort('Sort'), $config);
+                $fields->addFieldsToTab('Root.Files.Warranty', array(
+                    $warranties,
+                ));
+
+                $inquiries = $fields->dataFieldByName('Inquiries');
+                $inquiries->setConfig($inquiriesConfig = GridFieldConfig_RecordViewer::create());
+            }
+        });
+        return parent::getCMSFields();
     }
 
     /**
