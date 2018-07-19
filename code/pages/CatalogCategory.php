@@ -33,7 +33,9 @@ class CatalogCategory extends Page
             if ($this->ID) {
                 // Products
                 $config = GridFieldConfig_RelationEditor::create();
-                if (class_exists('GridFieldOrderableRows')) {
+                if (class_exists('GridFieldSortableRows')) {
+                    $config->addComponent(new GridFieldSortableRows('SortOrder'));
+                } else if (class_exists('GridFieldOrderableRows')) {
                     $config->addComponent(new GridFieldOrderableRows('SortOrder'));
                 }
 
@@ -60,7 +62,7 @@ class CatalogCategory extends Page
                 ));
             }
         });
-        
+
         return parent::getCMSFields();
     }
 
