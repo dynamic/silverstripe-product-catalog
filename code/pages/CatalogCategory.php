@@ -2,6 +2,11 @@
 
 use Heyday\VersionedDataObjects\VersionedDataObjectDetailsForm;
 
+/**
+ * Class CatalogCategory
+ *
+ * @method \ManyManyList Products()
+ */
 class CatalogCategory extends Page
 {
     /**
@@ -23,33 +28,42 @@ class CatalogCategory extends Page
 
     public function getCMSFields()
     {
-        $fields = parent::getCMSFields();
+        $this->beforeUpdateCMSFields(function ($fields) {
+            /** @var \FieldList $fields */
+            if ($this->ID) {
+                // Products
+                $config = GridFieldConfig_RelationEditor::create();
+                if (class_exists('GridFieldSortableRows')) {
+                    $config->addComponent(new GridFieldSortableRows('SortOrder'));
+                } else if (class_exists('GridFieldOrderableRows')) {
+                    $config->addComponent(new GridFieldOrderableRows('SortOrder'));
+                }
 
-        if ($this->ID) {
-            // Products
-            $config = GridFieldConfig_RelationEditor::create();
-            if (class_exists('GridFieldSortableRows')) {
-                $config->addComponent(new GridFieldSortableRows('SortOrder'));
+                if (class_exists('GridFieldTitleHeader')) {
+                    $config->removeComponentsByType(GridFieldSortableHeader::class)
+                        ->addComponent(new GridFieldTitleHeader());
+                }
+
+                if (class_exists('GridFieldAddExistingSearchButton')) {
+                    $config->removeComponentsByType('GridFieldAddExistingAutocompleter');
+                    $config->addComponent(new GridFieldAddExistingSearchButton());
+                }
+                $config->removeComponentsByType('GridFieldDetailForm');
+                $config->addComponent(new VersionedDataObjectDetailsForm());
+
+                $config->removeComponentsByType('GridFieldPaginator');
+                $config->removeComponentsByType('GridFieldPageCount');
+
+                $products = $this->Products()->sort('SortOrder');
+                $productsField = GridField::create('Products', 'Products', $products, $config);
+
+                $fields->addFieldsToTab('Root.Products', array(
+                    $productsField,
+                ));
             }
-            if (class_exists('GridFieldAddExistingSearchButton')) {
-                $config->removeComponentsByType('GridFieldAddExistingAutocompleter');
-                $config->addComponent(new GridFieldAddExistingSearchButton());
-            }
-            $config->removeComponentsByType('GridFieldDetailForm');
-            $config->addComponent(new VersionedDataObjectDetailsForm());
+        });
 
-            $config->removeComponentsByType('GridFieldPaginator');
-            $config->removeComponentsByType('GridFieldPageCount');
-
-            $products = $this->Products()->sort('SortOrder');
-            $productsField = GridField::create('Products', 'Products', $products, $config);
-
-            $fields->addFieldsToTab('Root.Products', array(
-                $productsField,
-            ));
-        }
-
-        return $fields;
+        return parent::getCMSFields();
     }
 
     /**
