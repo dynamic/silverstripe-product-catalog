@@ -181,10 +181,6 @@ class CatalogProduct extends DataObject implements PermissionProvider, Dynamic\V
                 'DisabledBlocks',
             ];
 
-            if (!$this->ID) {
-                $remove[] = 'Blocks';
-            }
-
             $fields->removeByName($remove);
 
             $fields->insertBefore(
@@ -257,7 +253,13 @@ class CatalogProduct extends DataObject implements PermissionProvider, Dynamic\V
                 $inquiries->setConfig($inquiriesConfig = GridFieldConfig_RecordViewer::create());
             }
         });
-        return parent::getCMSFields();
+        $fields = parent::getCMSFields();
+
+        if (!$this->exists()) {
+            $fields->removeByName('Blocks');
+        }
+
+        return $fields;
     }
 
     /**
