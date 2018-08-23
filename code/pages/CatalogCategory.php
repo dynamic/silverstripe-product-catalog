@@ -137,6 +137,11 @@ class CatalogCategory_Controller extends Page_Controller
     );
 
     /**
+     * @var bool
+     */
+    private static $include_meta_tag_title = true;
+
+    /**
      * @var
      */
     private $product;
@@ -200,11 +205,10 @@ class CatalogCategory_Controller extends Page_Controller
         if (!$product) {
             return $this->httpError(404, 'The product you\'re looking for isn\'t available.');
         }
-
         return $this->customise(array(
-            'Title' => $product->getTitle(),
+            'Title' => $product->MetaTitle ? $product->MetaTitle : $product->Title,
             'Product' => $product,
-            'MetaTags' => $product->MetaTags(),
+            'MetaTags' => $product->MetaTags($this->config()->get('include_meta_tag_title')),
             'Breadcrumbs' => $product->Breadcrumbs(),
             'AllowInquiries' => $product->AllowInquiry,
             'ProductInquiryForm' => $this->ProductInquiryForm(),
