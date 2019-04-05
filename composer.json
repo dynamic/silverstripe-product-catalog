@@ -10,10 +10,10 @@
     "keywords": [
         "silverstripe"
     ],
-    "type": "silverstripe-module",
+    "type": "silverstripe-vendormodule",
     "license": "BSD-3-Clause",
     "require": {
-        "silverstripe/recipe-cms": "^1.0 | ^4.0",
+        "silverstripe/recipe-cms": "^4.0",
         "dynamic/flexslider": "^3.0",
         "dynamic/silverstripe-collection": "^2.0",
         "dynamic/viewable-dataobject": "^2.0",
