@@ -15,7 +15,7 @@ class ProductDocCollectionDataExtension extends DataExtension
     public function updateCollectionObject(&$object)
     {
         if ($class = $this->owner->data()->ManagedClass) {
-            $object = (string) $class;
+            $object = singleton((string) $class);
         }
     }
 

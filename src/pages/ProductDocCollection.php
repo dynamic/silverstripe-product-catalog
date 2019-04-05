@@ -5,6 +5,7 @@ namespace Dynamic\ProductCatalog\Page;
 use Dynamic\ProductCatalog\Docs\ProductDoc;
 use SilverStripe\Core\ClassInfo;
 use SilverStripe\Forms\DropdownField;
+use SilverStripe\Forms\FieldList;
 
 class ProductDocCollection extends \Page
 {
